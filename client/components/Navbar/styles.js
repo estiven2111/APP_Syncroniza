@@ -10,9 +10,6 @@ import { StyleSheet } from "react-native";
 // });
 
 export const styles = StyleSheet.create({
-  container: {
-    backgroundColor: "grey",
-  },
   Navbar: {
     margin: 0,
     padding: 0,
@@ -31,17 +28,22 @@ export const styles = StyleSheet.create({
   },
   buton: {
     backgroundColor: "gray",
-    padding: 10,
-    marginLeft: 15,
-    width: 60,
-    height: 50,
+    marginLeft:50,
+    width: 40,
+    height: 40,
     borderRadius: 1,
+    display:"flex",
+    justifyContent:"center",
+    alignItems:"center"
   },
-  textButon: {
-    fontSize: 30,
-    display: "flex",
-    justifyContent: "center",
-    alignItems: "center",
-    color: "white",
+  textButon: {color: "white",
+  },
+  input: {
+    width: "90%",
+    backgroundColor: "lightgrey",
+    padding: 4,
+    margin: 5,
+    marginTop:30,
+    borderRadius: 6
   },
 });

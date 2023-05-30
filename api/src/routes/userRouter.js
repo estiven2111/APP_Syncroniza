@@ -18,7 +18,7 @@ userRouter.post('/api/login', async (req, res) => {
   
   const { user, password } = req.body;
   const usuario = await usuarioBD()
-  console.log(user,password)
+  
   try {
     if (user===usuario.user){
         console.log('vamos por aqui');
