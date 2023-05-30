@@ -17,7 +17,7 @@ const Login = () => {
       await AsyncStorage.setItem('token', token); // Almacena el token en el dispositivo
 
       // Realiza la navegación a la siguiente pantalla
-      navigation.navigate('Mytabs');
+      navigation.navigate('Home');
     } catch (error) {
       console.error('Error de inicio de sesión:', error);
       // Manejo de errores de inicio de sesión
