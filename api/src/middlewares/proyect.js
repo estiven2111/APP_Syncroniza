@@ -24,16 +24,19 @@ const activity = async (req, res) => {
 };
 
 const getComponet = async (req, res) => {
-  const cons = await Activity.findAll({
-    include:Componet
-  });
-// const cons = await Proyect.findAll({
-//     include: Componet
-//   });
+  //   const cons = await Activity.findAll({
+  //     include:Componet
+  //   });
+  // const cons = await Proyect.findAll({
+  //     include: Componet
+  //   });
 
-//   const conse = await Componet.findAll({
-//     include: [Activity,Proyect]
-//   });
-  res.json(cons);
+  const conse = await  Proyect.findAll( {
+    include: {
+      model: Componet,
+      include: Activity,
+    },
+  })
+  res.json(conse);
 };
 module.exports = { proyect, componet, getComponet, activity };
