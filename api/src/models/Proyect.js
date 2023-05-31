@@ -8,14 +8,14 @@ module.exports = (sequelize) => {
         autoIncrement: true,
         primaryKey: true,
       },
-      email: {
+      proyect: {
         type: DataTypes.STRING,
         unique: true,
-        allowNull: false,
+        allowNull: true,
       },
-      password: {
+      description: {
         type: DataTypes.STRING,
-        allowNull: false,
+        allowNull: true,
       },
      });
 }

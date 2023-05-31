@@ -2,14 +2,14 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const { User } = require("../db");
 
-const pass = "1234";
-const usuarioBD = async () => {
-  const hashedPassword = await bcrypt.hash(pass.toString(), 10);
-  return {
-    user: "miguel",
-    password: hashedPassword,
-  };
-};
+// const pass = "1234";
+// const usuarioBD = async () => {
+//   const hashedPassword = await bcrypt.hash(pass.toString(), 10);
+//   return {
+//     user: "miguel",
+//     password: hashedPassword,
+//   };
+// };
 
 const login = async (req, res) => {
   const { user, password } = req.body;
