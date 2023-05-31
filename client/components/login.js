@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, Text, TextInput, Button, StyleSheet } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useNavigation } from '@react-navigation/native';
@@ -9,12 +9,27 @@ const Login = () => {
   const [password, setPassword] = useState('');
   const navigation = useNavigation(); 
 
+  const handleGetToken = async() => {
+    const datatoken = await AsyncStorage.getItem('token');
+    if(!datatoken) {
+      navigation.navigate("Login")
+    } else {
+      navigation.navigate("Home")
+    }
+  }
+  
+useEffect(()=>{
+  setTimeout(()=> {
+    handleGetToken();
+  },0)
+},[])
+
   const handleLogin = async () => {
     try {
       const response = await api.post('/login', { user, password });
-      console.log('hola');
       const token = response.data.token;
       await AsyncStorage.setItem('token', token); // Almacena el token en el dispositivo
+      setPassword("")
 
       // Realiza la navegación a la siguiente pantalla
       navigation.navigate('Home');

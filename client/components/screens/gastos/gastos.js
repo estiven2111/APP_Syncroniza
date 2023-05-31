@@ -1,12 +1,13 @@
 import React from 'react';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet } from 'react-native';
-import Navbar from "../../Navbar/Navbar"
+import Constants from "expo-constants";
+
+import WelcomeBar from '../../welcomeBar';
+
 const Gastos = () => {
     return (
-        <View>
-            <View style={styles.Navbar}>
-        <Navbar />
-      </View>
+        <View style={styles.container}>
+            <WelcomeBar/>
             <TextInput style={styles.input} placeholder='Busca el Proyecto o sin Proyecto'/>
             <View style={styles.inputCont}>
                 <TextInput style={styles.input} placeholder='*Buscar anticipo'/>
@@ -41,6 +42,9 @@ const Gastos = () => {
 }
 
 const styles = StyleSheet.create({
+    container: {
+        marginTop: Constants.statusBarHeight
+      },
     inputCont : {
         padding: 5,
         flexDirection: "row"
@@ -60,19 +64,5 @@ const styles = StyleSheet.create({
       marginHorizontal: 10,
       borderRadius: 10
     },
-    Navbar:{
-        margin:0,
-        marginBottom:40,
-        padding:0,
-        width:"100%",
-        height:"10%",
-        // backgroundColor:"rgba(170, 164, 164, 0.9)",
-        display:"flex",
-        justifyContent:"center",
-        alignItems:"center",
-        flexDirection:"row",
-        flexWrap:"wrap"
-  
-      },
   });
 export default Gastos 

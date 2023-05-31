@@ -1,12 +1,13 @@
 import React from 'react';
 import { View, Text, TextInput, StyleSheet  } from 'react-native';
-import Navbar from "../../Navbar/Navbar"
+import Constants from "expo-constants";
+
+import WelcomeBar from '../../welcomeBar';
+
 const Indicadores = () => {
     return (
-        <View>
-             <View style={styles.Navbar}>
-        <Navbar />
-      </View>
+        <View style={styles.container}>
+            <WelcomeBar/>
             <TextInput style={styles.input} placeholder='Busca el Proyecto o sin Proyecto'/>
             <TextInput style={styles.input} placeholder='Fecha inicio - Fecha fin'/>
             <View style={styles.inputCont}>
@@ -36,6 +37,9 @@ const Indicadores = () => {
 }
 
 const styles = StyleSheet.create({
+    container: {
+        marginTop: Constants.statusBarHeight
+      },
     inputCont : {
         padding: 5,
         flexDirection: "row",
@@ -64,20 +68,6 @@ const styles = StyleSheet.create({
         justifyContent: "center",
         alignItems: "center"
     },
-    Navbar:{
-        margin:0,
-        marginBottom:40,
-        padding:0,
-        width:"100%",
-        height:"10%",
-        // backgroundColor:"rgba(170, 164, 164, 0.9)",
-        display:"flex",
-        justifyContent:"center",
-        alignItems:"center",
-        flexDirection:"row",
-        flexWrap:"wrap"
-  
-      },
   });
 
 export default Indicadores 
