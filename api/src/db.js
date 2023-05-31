@@ -51,8 +51,16 @@ let capsEntries = entries.map((entry) => [
   entry[1],
 ]);
 sequelize.models = Object.fromEntries(capsEntries);
+ const { User, Proyect, Componet, Activity } = sequelize.models;
 
-const { User, Proyect } = sequelize.models;
+//  Component.belongsToMany(Proyect,{through:"proyectComponet"}) // ? un componente tiene muchos proyectos
+//  Proyect.belongsToMany(Component,{through:"proyectComponet"}) //? un proyecto tiene muchos componentes
+
+Proyect.hasMany(Componet) // ? un proyecto tiene muchos componetes
+Componet.belongsTo(Proyect) //? un componente tiene un proyecto
+
+Componet.hasMany(Activity) // ? un Componet tiene muchos Activity
+Activity.belongsTo(Componet) //? un Activity tiene un Componet
 
 
 

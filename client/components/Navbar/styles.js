@@ -21,9 +21,8 @@ export const styles = StyleSheet.create({
   },
   text: {
     display: "flex",
-
     color: "#20232a",
-    fontSize: 15,
+    fontSize: 24,
     fontWeight: "bold",
   },
   buton: {

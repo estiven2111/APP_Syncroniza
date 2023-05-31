@@ -10,7 +10,18 @@ const Tab = createBottomTabNavigator();
 
 const Home = () => {
     return (
-            <Tab.Navigator>
+            <Tab.Navigator
+            screenOptions={{
+                tabBarStyle:{
+                    height:60,
+                    position:"absolute",
+                    bottom:16,
+                    right:16,
+                    left:16,
+                    borderRadius:15,
+                }
+            }}
+            >
                 <Tab.Screen name="Actividades" component={Actividades} 
                 options={{
                     tabBarIcon: ({ color, size }) => (

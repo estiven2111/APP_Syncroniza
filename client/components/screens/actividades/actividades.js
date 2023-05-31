@@ -9,7 +9,7 @@ const Actividades = () => {
           <View style={styles.Navbar}>
         <Navbar />
       </View>
-            <Text>BIENVENIDO : Usuario</Text>
+            {/* <Text>BIENVENIDO : Usuario</Text> */}
             <TextInput style={styles.input} placeholder='Escriba para buscar el proyecto'></TextInput>
             <Checklist/>
         </View>
