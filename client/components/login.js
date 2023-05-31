@@ -1,25 +1,27 @@
-import React, { useState } from 'react';
-import { View, Text, TextInput, Button, StyleSheet } from 'react-native';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import { useNavigation } from '@react-navigation/native';
-import api from '../api/api';
+import React, { useState } from "react";
+import { View, Text, TextInput, Button, StyleSheet, Alert } from "react-native";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { useNavigation } from "@react-navigation/native";
+import api from "../api/api";
 
 const Login = () => {
-  const [user, setUser] = useState('');
-  const [password, setPassword] = useState('');
-  const navigation = useNavigation(); 
+  const [user, setUser] = useState("");
+  const [password, setPassword] = useState("");
+  const navigation = useNavigation();
 
   const handleLogin = async () => {
     try {
-      const response = await api.post('/login', { user, password });
-      console.log('hola');
+      const response = await api.post("/login", { user, password });
+      console.log(response);
+      if (response.data === "") {
+      }
       const token = response.data.token;
-      await AsyncStorage.setItem('token', token); // Almacena el token en el dispositivo
-
+      await AsyncStorage.setItem("token", token); // Almacena el token en el dispositivo
+      await AsyncStorage.setItem("user",user)
       // Realiza la navegación a la siguiente pantalla
-      navigation.navigate('Home');
+      navigation.navigate("Home");
     } catch (error) {
-      console.error('Error de inicio de sesión:', error);
+      console.error("Error de inicio de sesión:", error);
       // Manejo de errores de inicio de sesión
     }
   };
@@ -49,19 +51,19 @@ const Login = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
+    backgroundColor: "#fff",
+    alignItems: "center",
+    justifyContent: "center",
   },
   titulo: {
-    fontSize: 30
+    fontSize: 30,
   },
   input: {
     width: "60%",
     backgroundColor: "lightgrey",
     padding: 4,
     margin: 5,
-    borderRadius: 6
+    borderRadius: 6,
   },
 });
 
