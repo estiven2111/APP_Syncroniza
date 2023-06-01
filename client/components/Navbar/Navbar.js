@@ -19,9 +19,7 @@ function Navbar() {
         <TouchableOpacity style={styles.buton} onPress={handlesConfig}>
           <Text style={styles.textButon}>...</Text>
         </TouchableOpacity>
-       </View>
-
-    
+      </View>
     </>
   );
 }
