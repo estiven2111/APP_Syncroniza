@@ -1,5 +1,4 @@
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import {NavigationContainer} from '@react-navigation/native';
 import React from 'react';
 
 import Actividades from "./screens/actividades/actividades";
@@ -27,8 +26,7 @@ const Home = () => {
                     tabBarIcon: ({ color, size }) => (
                       <Ionicons name="checkbox-outline" size={24} color="black" />
                     ),
-                    headerShown: true,
-                    // tabBarBadge: 10, // se usa para las notificaciones
+                    headerShown: false
                   }}
                 />
                 <Tab.Screen name="Gastos" component={Gastos} 
@@ -36,7 +34,7 @@ const Home = () => {
                     tabBarIcon: ({ color, size }) => (
                       <MaterialIcons name="attach-money" size={24} color="black" />
                     ),
-                    headerShown: true, //? quitamos el header con esto
+                    headerShown: false
                   }}
                 />
                 <Tab.Screen name="Indicadores" component={Indicadores} 
@@ -44,6 +42,7 @@ const Home = () => {
                     tabBarIcon: ({ color, size }) => (
                       <Entypo name="bar-graph" size={24} color="black" />
                     ),
+                    headerShown: false
                   }}
                 />
             </Tab.Navigator>
