@@ -1,12 +1,12 @@
 import React from 'react';
-import { View, Text, TextInput, TouchableOpacity, StyleSheet } from 'react-native';
+import { ScrollView, View, Text, TextInput, TouchableOpacity, StyleSheet } from 'react-native';
 import Constants from "expo-constants";
 
 import WelcomeBar from '../../welcomeBar';
 
 const Gastos = () => {
     return (
-        <View style={styles.container}>
+        <ScrollView contentContainerStyle={styles.container}>
             <WelcomeBar/>
             <TextInput style={styles.input} placeholder='Busca el Proyecto o sin Proyecto'/>
             <View style={styles.inputCont}>
@@ -27,7 +27,7 @@ const Gastos = () => {
             </View>
             <View style={styles.inputCont}>
                 <TextInput style={styles.input} placeholder='Valor Rete fuente $'/>
-                <TextInput style={styles.input} placeholder='*Fecha recibo DD/MM/AAAA'/>
+                <TextInput style={styles.input} placeholder='*DD/MM/AAAA'/>
             </View>
             <View style={styles.inputCont}>
                 <TextInput style={styles.input} placeholder='Valor ICA $'/>
@@ -37,13 +37,15 @@ const Gastos = () => {
             <TouchableOpacity style={styles.scan}>
                 <Text>Confirmar envío...</Text>
             </TouchableOpacity>
-        </View>
+            <View style={styles.footer}></View>
+        </ScrollView>
     )
 }
 
 const styles = StyleSheet.create({
     container: {
-        marginTop: Constants.statusBarHeight
+        marginTop: Constants.statusBarHeight,
+        flexGrow: 1
       },
     inputCont : {
         padding: 5,
@@ -54,7 +56,7 @@ const styles = StyleSheet.create({
         paddingHorizontal: 10,
         marginVertical: 5,
         marginHorizontal: 20,
-        height:"20%" ,
+        height:100 ,
         borderRadius: 4,
         justifyContent: "center"
     },
@@ -62,7 +64,12 @@ const styles = StyleSheet.create({
       paddingHorizontal: 10,
       backgroundColor: "lightgrey",
       marginHorizontal: 10,
-      borderRadius: 10
+      borderRadius: 10,
+      flex: 1
     },
+    footer: {
+        
+      marginBottom: 35
+    }
   });
 export default Gastos 
