@@ -1,13 +1,16 @@
 import React from 'react';
 import { View, Text, TextInput, StyleSheet  } from 'react-native';
 import Constants from "expo-constants";
-
+import Navbar from '../../Navbar/Navbar';
 import WelcomeBar from '../../welcomeBar';
 
 const Indicadores = () => {
     return (
         <View style={styles.container}>
             <WelcomeBar/>
+            <View style={styles.Navbar}>
+        <Navbar />
+      </View>
             <TextInput style={styles.input} placeholder='Busca el Proyecto o sin Proyecto'/>
             <TextInput style={styles.input} placeholder='Fecha inicio - Fecha fin'/>
             <View style={styles.inputCont}>
@@ -68,6 +71,21 @@ const styles = StyleSheet.create({
         justifyContent: "center",
         alignItems: "center"
     },
+    Navbar:{
+        margin:0,
+        marginBottom:40,
+        padding:0,
+        width:"100%",
+        height:"10%",
+        // backgroundColor:"rgba(170, 164, 164, 0.9)",
+        display:"flex",
+        justifyContent:"center",
+        alignItems:"center",
+        flexDirection:"row",
+        flexWrap:"wrap"
+  
+      },
+  
   });
 
 export default Indicadores 
