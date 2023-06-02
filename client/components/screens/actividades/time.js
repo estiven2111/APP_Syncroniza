@@ -57,10 +57,16 @@ const styles = StyleSheet.create({
     },
     modalContent: {
         backgroundColor: 'white',
+        justifyContent: "center",
+        alignItems: "center",
         width: 200,
         padding: 10,
         borderRadius: 10,
     },
+    hour: {
+        flexDirection: "row",
+        padding: 5
+    }
 });
 
 export default Time
