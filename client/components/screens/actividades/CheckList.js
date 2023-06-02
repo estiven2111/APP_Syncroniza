@@ -11,6 +11,7 @@ const Checklist = () => {
   //   { id: 3, text: 'Tarea 3', checked: false },
   // ]);
 
+  //? esta funcion se encarga d modificar el estado haciendo un mapeo y encontrando por id el item a modificar
   const toggleCheck = (itemId) => {
     const updatedItems = items.map((item) =>
       item.id === itemId ? { ...item, checked: !item.checked } : item
