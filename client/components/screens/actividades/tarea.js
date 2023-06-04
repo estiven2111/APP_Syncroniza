@@ -1,7 +1,8 @@
 import React, {useState} from 'react';
-import { View, Text, TouchableOpacity, Modal, StyleSheet, TextInput } from "react-native"
+import { View, Text, StyleSheet } from "react-native"
 import { CheckBox } from 'react-native-elements';
-import Time from "./time"
+import Time from "./time";
+import Entregables from './entregables';
 import Camera from './camera';
 
 const Tarea = () => {
@@ -14,15 +15,9 @@ const Tarea = () => {
     return (
         <View style={styles.container}>
             <Text>tarea index</Text>
-            <CheckBox 
-                title=""
-                checked={checked}
-                onPress={handleCheckboxToggle}
-            />
+            <CheckBox title="" checked={checked} onPress={handleCheckboxToggle}/>
             <Time/>
-            <TouchableOpacity style={styles.button}>
-                <Text>...</Text>
-            </TouchableOpacity>
+            <Entregables/>
             <Camera/>
         </View>
     )
@@ -47,18 +42,18 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         backgroundColor: 'rgba(0, 0, 0, 0.5)', // Fondo semitransparente para el modal
-    },
-        modalContent: {
+      },
+      modalContent: {
         backgroundColor: 'white',
         width: 200,
         padding: 10,
         borderRadius: 10,
-    },
-        hour: {
+      },
+      hour: {
         flexDirection: "row",
         margin: 10,
         justifyContent: "space-around"
-    }
+      }
 });
 
 export default Tarea
