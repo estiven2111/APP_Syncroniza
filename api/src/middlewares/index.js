@@ -1,21 +1,14 @@
 const login = require("./login");
 // const registerUser = require("./registerUser");
 const {
-//   proyect,
-//   componet,
-//   getComponet,
-//   activity,
   getProyectName,
   getProyect,
+  logout
 } = require("./proyect");
 
 module.exports = {
-  //  registerUser,
-  //  proyect,
-  //   componet,
-  //   getComponet,
-  //    activity,
   login,
   getProyectName,
   getProyect,
+  logout
 };
