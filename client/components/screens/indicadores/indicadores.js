@@ -1,36 +1,36 @@
 import React from 'react';
 import { ScrollView, View, Text, TextInput, StyleSheet  } from 'react-native';
 import Constants from "expo-constants";
-import Navbar from '../../Navbar/Navbar';
 import WelcomeBar from '../../welcomeBar';
 
 const Indicadores = () => {
     return (
-      <ScrollView contentContainerStyle={styles.container}>
+      <View style={styles.container}>
         <WelcomeBar />
-        <TextInput style={styles.inputBar} placeholder="Busca el Proyecto o sin Proyecto" />
-        <TextInput style={styles.inputBar} placeholder="Fecha inicio - Fecha fin" />
-        <View style={styles.inputCont}>
-          <Text style={styles.label}>Horas Disp.:</Text>
-          <TextInput style={styles.input} placeholder="hora" />
-          <Text style={styles.label}>Horas Cumplidas:</Text>
-          <TextInput style={styles.input} placeholder="hora" />
-        </View>
-        <View style={styles.inputCont}>
-          <Text style={styles.label}>Horas Prog.:</Text>
-          <TextInput style={styles.input} placeholder="hora" />
-          <Text style={styles.label}>Horas Frecuencia:</Text>
-          <TextInput style={styles.input} placeholder="hora" />
-        </View>
-        <View style={styles.inputCont}>
-          <Text style={styles.label}>NIVEL DE ACTIVIDAD(%):</Text>
-          <TextInput style={styles.input} placeholder="%%%" />
-        </View>
-        <View style={styles.grafico}>
-          <Text>GRAFICO AQUI</Text>
-        </View>
-        <View style={styles.footer}></View>
-      </ScrollView>
+        <ScrollView>
+          <TextInput style={styles.inputBar} placeholder="Fecha inicio - Fecha fin" />
+          <View style={styles.inputCont}>
+            <Text style={styles.label}>Horas Disp.:</Text>
+            <TextInput style={styles.input} placeholder="hora" />
+            <Text style={styles.label}>Horas Cumplidas:</Text>
+            <TextInput style={styles.input} placeholder="hora" />
+          </View>
+          <View style={styles.inputCont}>
+            <Text style={styles.label}>Horas Prog.:</Text>
+            <TextInput style={styles.input} placeholder="hora" />
+            <Text style={styles.label}>Horas Frecuencia:</Text>
+            <TextInput style={styles.input} placeholder="hora" />
+          </View>
+          <View style={styles.inputCont}>
+            <Text style={styles.label}>NIVEL DE ACTIVIDAD(%):</Text>
+            <TextInput style={styles.input} placeholder="%%%" />
+          </View>
+          <View style={styles.grafico}>
+            <Text>GRAFICO AQUI</Text>
+          </View>
+          <View style={styles.footer}></View>
+        </ScrollView>
+      </View>
     );
   };
   
