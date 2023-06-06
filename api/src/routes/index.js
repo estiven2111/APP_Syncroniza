@@ -5,6 +5,6 @@ const ProyectRouter = require("./proyectRouter");
 const router = Router();
 
 router.use("/user", userRouter);
-router.use("/proyect", ProyectRouter);
+router.use("/user/api/proyect", ProyectRouter);
 
 module.exports = router;

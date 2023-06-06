@@ -1,91 +1,81 @@
 import React from 'react';
-import { View, Text, TextInput, StyleSheet  } from 'react-native';
+import { ScrollView, View, Text, TextInput, StyleSheet  } from 'react-native';
 import Constants from "expo-constants";
 import Navbar from '../../Navbar/Navbar';
 import WelcomeBar from '../../welcomeBar';
 
 const Indicadores = () => {
     return (
-        <View style={styles.container}>
-            <WelcomeBar/>
-            <View style={styles.Navbar}>
-        <Navbar />
-      </View>
-            <TextInput style={styles.input} placeholder='Busca el Proyecto o sin Proyecto'/>
-            <TextInput style={styles.input} placeholder='Fecha inicio - Fecha fin'/>
-            <View style={styles.inputCont}>
-                <Text style={styles.input} placeholder='Valor ICA $'>Horas Disp.:</Text>
-                <TextInput style={styles.input} placeholder='hora'/>
-                <Text style={styles.input} placeholder='Valor ICA $'>Horas Cumplidas:</Text>
-                <TextInput style={styles.input} placeholder='hora'/>
-            </View>
-            <View style={styles.inputCont}>
-                <Text style={styles.input} placeholder='Valor ICA $'>Horas Prog.:</Text>
-                <TextInput style={styles.input} placeholder='hora'/>
-                <Text style={styles.input} placeholder='Valor ICA $'>Horas Frecuencia:</Text>
-                <TextInput style={styles.input} placeholder='hora'/>
-            </View>
-            <View style={styles.inputCont}>
-                <Text style={styles.input} placeholder='Valor ICA $'>NIVEL DE ACTIVIDAD(%)</Text>
-                <TextInput style={styles.input} placeholder='%%%'/>
-            </View>
-            <View style={styles.grafico}>
-                <Text>GRAFICO AQUI</Text>
-            </View>
-            
-
-            <Text>Estos son los Indicadores</Text>
+      <ScrollView contentContainerStyle={styles.container}>
+        <WelcomeBar />
+        <TextInput style={styles.inputBar} placeholder="Busca el Proyecto o sin Proyecto" />
+        <TextInput style={styles.inputBar} placeholder="Fecha inicio - Fecha fin" />
+        <View style={styles.inputCont}>
+          <Text style={styles.label}>Horas Disp.:</Text>
+          <TextInput style={styles.input} placeholder="hora" />
+          <Text style={styles.label}>Horas Cumplidas:</Text>
+          <TextInput style={styles.input} placeholder="hora" />
         </View>
-    )
-}
-
-const styles = StyleSheet.create({
+        <View style={styles.inputCont}>
+          <Text style={styles.label}>Horas Prog.:</Text>
+          <TextInput style={styles.input} placeholder="hora" />
+          <Text style={styles.label}>Horas Frecuencia:</Text>
+          <TextInput style={styles.input} placeholder="hora" />
+        </View>
+        <View style={styles.inputCont}>
+          <Text style={styles.label}>NIVEL DE ACTIVIDAD(%):</Text>
+          <TextInput style={styles.input} placeholder="%%%" />
+        </View>
+        <View style={styles.grafico}>
+          <Text>GRAFICO AQUI</Text>
+        </View>
+        <View style={styles.footer}></View>
+      </ScrollView>
+    );
+  };
+  
+  const styles = StyleSheet.create({
     container: {
-        marginTop: Constants.statusBarHeight
-      },
-    inputCont : {
-        padding: 5,
-        flexDirection: "row",
+      marginTop: Constants.statusBarHeight,
+      flexGrow: 1,
+      padding: 10,
     },
-    scan: {
-        backgroundColor: "lightblue",
+    inputBar: {
         paddingHorizontal: 10,
+        backgroundColor: 'lightgrey',
+        borderRadius: 10,
         marginVertical: 5,
-        marginHorizontal: 20,
-        height:"20%" ,
-        borderRadius: 4,
-        justifyContent: "center"
+        height: 40
+      },
+    inputCont: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      marginVertical: 5,
+    },
+    label: {
+      width: 85,
+      marginRight: 5,
+      fontWeight: 'bold',
     },
     input: {
-      paddingHorizontal: 10,
-      backgroundColor: "lightgrey",
-      marginHorizontal: 10,
+      flex: 1,
+      paddingHorizontal: 5,
+      backgroundColor: 'lightgrey',
       borderRadius: 10,
-      marginVertical: 5
+      marginRight: 5,
+      paddingVertical: 5,
     },
     grafico: {
-        backgroundColor: "lightgrey",
-        height: "40%",
-        width: "90%",
-        left: "5%",
-        justifyContent: "center",
-        alignItems: "center"
+      backgroundColor: 'lightgrey',
+      height: 200,
+      width: '90%',
+      alignSelf: 'center',
+      justifyContent: 'center',
+      alignItems: 'center',
     },
-    Navbar:{
-        margin:0,
-        marginBottom:40,
-        padding:0,
-        width:"100%",
-        height:"10%",
-        // backgroundColor:"rgba(170, 164, 164, 0.9)",
-        display:"flex",
-        justifyContent:"center",
-        alignItems:"center",
-        flexDirection:"row",
-        flexWrap:"wrap"
-  
-      },
-  
+    footer: {
+      marginBottom: 28
+    }
   });
-
-export default Indicadores 
+  
+  export default Indicadores;
