@@ -117,7 +117,6 @@ const getProyect = async (req, res) => {
 };
 
 const logout = (req, res) => {
-  console.log("entro loguot");
   localStorage.removeItem(`Proyecto`);
   res.json("Logout seccesfull");
 };
