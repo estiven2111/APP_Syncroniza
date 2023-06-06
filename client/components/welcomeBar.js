@@ -1,20 +1,26 @@
 import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { View, Text, TextInput, StyleSheet } from 'react-native';
 
 import Logout from './logout';
-
-
+import SearchBar from './searchBar';
 
 const WelcomeBar = () => {
     return (
         <View style={styles.container}>
-            <Text style={styles.text}>Nombre de Usuario</Text>
-            <Logout/>
+            <View style={styles.rowContainer}>
+                <Text style={styles.text}>Nombre de Usuario</Text>
+                <Logout/>
+            </View>
+            <SearchBar/>
         </View>
     )
 }
 const styles = StyleSheet.create({
     container: {
+        flexDirection: "column",
+        justifyContent: 'space-between',
+    },
+    rowContainer: {
         flexDirection: "row",
         justifyContent: 'space-between',
         alignItems: "center"

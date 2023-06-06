@@ -10,6 +10,7 @@ const login = async (req, res) => {
    const existUser = await sequelize.query(
     `select * from Tbl_USUARIOS where Email = '${user}'`
   );
+  console.log(existUser[0].length)
   try {
     let usuario;
     if (existUser[0].length > 0) {
@@ -22,7 +23,7 @@ const login = async (req, res) => {
         return;
       }
     } else {
-     return res
+      return res
         .status(401)
         .json({ message: "Usuario no existe en la base de datos" });
     }
