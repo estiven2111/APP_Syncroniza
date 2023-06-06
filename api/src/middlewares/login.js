@@ -25,7 +25,6 @@ const login = async (req, res) => {
     let usuario;
     if (existUser) {
       usuario = existUser[0][0];
-      console.log(usuario);
       localStorage.setItem("user", JSON.stringify(usuario));
       
       // const isPasswordValid = await bcrypt.compare(password, usuario.clave);
