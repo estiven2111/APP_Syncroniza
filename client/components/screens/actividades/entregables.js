@@ -1,9 +1,7 @@
 import React, {useState} from 'react';
-import { View, Text, TouchableOpacity, Modal, StyleSheet } from "react-native";
-import { TimeInput } from '../../../utils/inputControl';
+import { View, Text, TextInput, TouchableOpacity, Modal, StyleSheet } from "react-native";
 
-
-const Time = () => {
+const Entregables = () => {
     const [modalVisible, setModalVisible] = useState(false);
 
     const openModal = () => {
@@ -16,21 +14,15 @@ const Time = () => {
     return (
         <View>
         <TouchableOpacity style={styles.button} onPress={openModal}>
-            <Text>Tiempo</Text>
+            <Text>...</Text>
         </TouchableOpacity>
         <Modal animationType= "fade" visible={modalVisible} onRequestClose={closeModal} transparent={true}>
             <View style={styles.modalContainer}>
                 <View style={styles.modalContent}>
-                    <Text>Fecha: fx()</Text>
-                    <View style={styles.hour}>
-                        <Text>Hora inicio:</Text>
-                        <TimeInput/>
-                    </View>
-                    <View style={styles.hour}>
-                        <Text>Hora final:</Text>
-                        <TimeInput/>
-                    </View>
-                    <Text>Duracion: Fx()</Text>
+                    <Text>Entregables a enviar:</Text>
+                    <TextInput placeholder='Entregable 1'></TextInput>
+                    <TextInput placeholder='Entregable 2'></TextInput>
+                    <TextInput placeholder='Entregable 3'></TextInput>
                     <TouchableOpacity onPress={closeModal}>
                         <Text>OK</Text>
                     </TouchableOpacity>
@@ -40,7 +32,6 @@ const Time = () => {
     </View>
     )
 }
-
 const styles = StyleSheet.create({
     button: {
         backgroundColor: "white",
@@ -53,7 +44,7 @@ const styles = StyleSheet.create({
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
-        backgroundColor: 'rgba(0, 0, 0, 0.5)', // Fondo semitransparente para el modal
+        backgroundColor: 'rgba(0, 0, 0, 0.6)', // Fondo semitransparente para el modal
     },
     modalContent: {
         backgroundColor: 'white',
@@ -69,4 +60,4 @@ const styles = StyleSheet.create({
     }
 });
 
-export default Time
+export default Entregables
