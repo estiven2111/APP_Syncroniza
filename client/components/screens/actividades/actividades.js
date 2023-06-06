@@ -1,10 +1,9 @@
 import React from 'react';
 import { ScrollView, View, TextInput, StyleSheet } from 'react-native';
 import Constants from "expo-constants";
-
-import WelcomeBar from '../../welcomeBar';
-import Checklist from './CheckList';
-
+import Navbar from "../../Navbar/Navbar";
+import WelcomeBar from "../../welcomeBar";
+import Checklist from "./CheckList";
 
 const Actividades = () => {
     return (
