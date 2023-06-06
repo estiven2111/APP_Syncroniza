@@ -1,7 +1,7 @@
 import React from 'react';
 import { ScrollView, View, Text, TextInput, TouchableOpacity, StyleSheet } from 'react-native';
 import Constants from "expo-constants";
-import Navbar from "../../Navbar/Navbar";
+// import Navbar from "../../Navbar/Navbar";
 import WelcomeBar from "../../welcomeBar";
 
 const Gastos = () => {
