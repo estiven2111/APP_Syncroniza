@@ -13,11 +13,11 @@ const WelcomeBar = () => {
 
     useEffect(() => {
         const fetchToken = async () => {
-          const token = await AsyncStorage.getItem("token");
-          console.log(token)
+          const name = await AsyncStorage.getItem("name")
+          const email = await AsyncStorage.getItem("email")
           setInfo({
-            name : token.substring(0,12),
-            email : token.substring(12,24)
+            name,
+            email
           })
         };
       
@@ -28,8 +28,10 @@ const WelcomeBar = () => {
     return (
         <View style={styles.container}>
             <View style={styles.rowContainer}>
+              <View style={styles.userinfo}>
                 <Text style={styles.text}>{info.name}</Text>
                 <Text style={styles.text}>{info.email}</Text>
+              </View>
                 <Logout/>
             </View>
         </View>
@@ -44,6 +46,9 @@ const styles = StyleSheet.create({
         flexDirection: "row",
         justifyContent: 'space-between',
         alignItems: "center"
+    },
+    userinfo: {
+      
     },
     text: {
         margin: 10,

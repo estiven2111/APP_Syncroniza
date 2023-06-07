@@ -8,12 +8,11 @@ const Stack = createStackNavigator();
 
 export default function App() {
   return (
-    <NavigationContainer>
-    <Stack.Navigator>
-      <Stack.Screen name="Login" component={Login} />
-      <Stack.Screen name="Home" component={Home} options={{headerShown:false}}/>
-      {/* Agrega más pantallas aquí */}
-    </Stack.Navigator>
-  </NavigationContainer>
+      <NavigationContainer>
+        <Stack.Navigator>
+          <Stack.Screen name="Login" component={Login} />
+          <Stack.Screen name="Home" component={Home} options={{headerShown:false}}/>
+        </Stack.Navigator>
+      </NavigationContainer>
   );
 }

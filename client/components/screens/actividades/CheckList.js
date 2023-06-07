@@ -22,14 +22,14 @@ const Checklist = () => {
 
   return (
     <View style={styles.container}>
-      {response.map((pro) => (
-        <View key={pro.proyecto} style={styles.pro}>
-          {pro.componentes.map((compo) => (
-            <View key={compo.componente} style={styles.compo}>
+      {response.map((pro, index) => (
+        <View key={index} style={styles.pro}>
+          {pro.componentes.map((compo,index) => (
+            <View key={index} style={styles.compo}>
               <Text>fecha</Text>
               <Text style={styles.compTitle}>{compo.componente}</Text>
-              {compo.actividades.map((act) => (
-                <View style={styles.actividad}>
+              {compo.actividades.map((act,index) => (
+                <View key={index} style={styles.actividad}>
                   <Tarea actividad={act.actividad}/>
                 </View>
                 ))}

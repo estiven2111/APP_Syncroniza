@@ -10,14 +10,11 @@ const login = async (req, res) => {
    const existUser = await sequelize.query(
     `select * from Tbl_USUARIOS where Email = '${user}'`
   );
-  console.log(existUser[0].length)
   try {
     let usuario;
     if (existUser[0].length > 0) {
       usuario = existUser[0][0];
-      // localStorage.setItem("user", JSON.stringify(usuario));
 
-      // const isPasswordValid = await bcrypt.compare(password, usuario.clave);
       if (password !== usuario.clave) {
         res.status(401).json({ message: "Clave incorrecta" });
         return;
@@ -33,10 +30,10 @@ const login = async (req, res) => {
     // Autenticación exitosa
     // Generar y devolver un token JWT aquí
     const secretKey = "my_secret";
-    const token = jwt.sign({ userEmail: usuario.Email, userName: usuario.Nombre }, secretKey, {
+    const token = jwt.sign({ userEmail: usuario.Email }, secretKey, {
       expiresIn: "12h",
     });
-    res.json({ token });
+    res.json({ token, userEmail: usuario.Email, userName: usuario.Nombre });
     LoadProyect(usuario.Doc_id)
   } catch (error) {
     console.error("Error al autenticar al usuario:", error);
