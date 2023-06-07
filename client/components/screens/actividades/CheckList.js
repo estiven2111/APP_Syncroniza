@@ -1,43 +1,42 @@
-import React, { useState } from 'react';
-import { View, FlatList, TouchableOpacity, Text, StyleSheet } from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { View, FlatList, Text, StyleSheet } from 'react-native';
 
+import api from '../../../api/api';
 import Tarea from './tarea';
 
 const Checklist = () => {
-    //? seteamos los valores de items con datos que deberian venir de la base de datos
-  // const [items, setItems] = useState([
-  //   { id: 1, text: 'Tarea 1', checked: false },
-  //   { id: 2, text: 'Tarea 2', checked: true },
-  //   { id: 3, text: 'Tarea 3', checked: false },
-  // ]);
+  const [response, setResponse] = useState([]);
 
-  //? esta funcion se encarga d modificar el estado haciendo un mapeo y encontrando por id el item a modificar
-  const toggleCheck = (itemId) => {
-    const updatedItems = items.map((item) =>
-      item.id === itemId ? { ...item, checked: !item.checked } : item
-    );
-    setItems(updatedItems);
-  };
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await api.get(`/proyect?search=5`);
+        setResponse(response.data);
+      } catch (error) {
+        console.error(error);
+      }
+    };
 
-  
-  // const renderItem = ({ item }) => (
-  //   <TouchableOpacity onPress={() => toggleCheck(item.id)}>
-  //     <View style={styles.item}>
-  //       <Text style={item.checked ? styles.checkedText : styles.uncheckedText}>{item.text}</Text>
-  //     </View>
-  //   </TouchableOpacity>
-  // );
+    fetchData();
+  }, []);
 
   return (
     <View style={styles.container}>
-      <Text>Fecha - Componente</Text>
-      <Tarea/>
-      {/* <FlatList
-        data={items}
-        renderItem={renderItem}
-        keyExtractor={(item) => item.id.toString()}
-        style={styles.list}
-      /> */}
+      {response.map((pro) => (
+        <View key={pro.proyecto} style={styles.pro}>
+          {pro.componentes.map((compo) => (
+            <View key={compo.componente} style={styles.compo}>
+              <Text>fecha</Text>
+              <Text style={styles.compTitle}>{compo.componente}</Text>
+              {compo.actividades.map((act) => (
+                <View>
+                  <Tarea actividad={act.actividad}/>
+                </View>
+                ))}
+            </View>
+          ))}
+        </View>
+      ))}
     </View>
   );
 };
@@ -45,25 +44,21 @@ const Checklist = () => {
 const styles = StyleSheet.create({
   container: {
     paddingHorizontal: 15,
-    backgroundColor: "lightgrey",
+    backgroundColor: 'lightgrey',
     margin: 10,
-    borderRadius: 10
+    borderRadius: 10,
   },
-  item: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    paddingVertical: 8,
+  pro: {
+    backgroundColor: "blue",
+    marginVertical: 5
   },
-  checkedText: {
-    textDecorationLine: 'line-through',
-    color: 'gray',
+  compo: {
+    backgroundColor: "red",
+    marginVertical: 5
   },
-  uncheckedText: {
-    color: 'black',
-  },
-  list: {
-    marginStart:15
+  compTitle: {
+    marginHorizontal: 5
   }
 });
 
-export default Checklist
+export default Checklist;

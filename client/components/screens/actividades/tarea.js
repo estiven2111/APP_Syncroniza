@@ -5,7 +5,7 @@ import Time from "./time";
 import Entregables from './entregables';
 import Camera from './camera';
 
-const Tarea = () => {
+const Tarea = (props) => {
     const [checked, setChecked] = useState(false);
 
     const handleCheckboxToggle = () => {
@@ -14,8 +14,11 @@ const Tarea = () => {
 
     return (
         <View style={styles.container}>
-            <Text>tarea index</Text>
-            <CheckBox title="" checked={checked} onPress={handleCheckboxToggle}/>
+            <Text style={styles.title}>{props.actividad}</Text>
+            <CheckBox checked={checked}
+        onPress={handleCheckboxToggle}
+        containerStyle={styles.checkBoxContainer}
+        checkedColor="black"/>
             <Time/>
             <Entregables/>
             <Camera/>
@@ -24,36 +27,21 @@ const Tarea = () => {
 }
 
 const styles = StyleSheet.create({
+    title: {
+        width:"40%",
+        borderColor: "black",
+        borderWidth: 2
+    },
     container: {
         flexDirection: "row",
         alignItems: "center",
         justifyContent: "space-between",
         paddingHorizontal: 8
     },
-    button: {
-        backgroundColor: "white",
-        padding: 5,
-        height: 30,
-        borderRadius: 8,
-        justifyContent: "center"
-    },
-    modalContainer: {
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
-        backgroundColor: 'rgba(0, 0, 0, 0.5)', // Fondo semitransparente para el modal
-      },
-      modalContent: {
-        backgroundColor: 'white',
-        width: 200,
-        padding: 10,
-        borderRadius: 10,
-      },
-      hour: {
-        flexDirection: "row",
-        margin: 10,
-        justifyContent: "space-around"
-      }
+    checkBoxContainer: {
+        padding: 0,
+        margin: 0
+    }
 });
 
 export default Tarea
