@@ -1,13 +1,13 @@
 import React from 'react';
 import { ScrollView, View, Text, TextInput, StyleSheet  } from 'react-native';
 import Constants from "expo-constants";
-import WelcomeBar from '../../welcomeBar';
+import SearchBar from '../../searchBar';
 
 const Indicadores = () => {
     return (
       <View style={styles.container}>
-        <WelcomeBar />
-        <ScrollView>
+        <SearchBar/>
+        <ScrollView style={styles.scroll}>
           <TextInput style={styles.inputBar} placeholder="Fecha inicio - Fecha fin" />
           <View style={styles.inputCont}>
             <Text style={styles.label}>Horas Disp.:</Text>
@@ -38,6 +38,8 @@ const Indicadores = () => {
     container: {
       marginTop: Constants.statusBarHeight,
       flexGrow: 1,
+    },
+    scroll: {
       padding: 10,
     },
     inputBar: {
@@ -74,7 +76,7 @@ const Indicadores = () => {
       alignItems: 'center',
     },
     footer: {
-      marginBottom: 28
+      marginBottom: 32
     }
   });
   

@@ -69,7 +69,9 @@ const SearchBar = () => {
 
 const styles = {
   container: {
-    marginHorizontal: 15,
+    marginHorizontal: 5,
+    marginTop: -30,
+    
     
   },
   input: {
