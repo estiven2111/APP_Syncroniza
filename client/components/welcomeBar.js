@@ -1,17 +1,37 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import { View, Text, TextInput, StyleSheet } from 'react-native';
+import AsyncStorage from "@react-native-async-storage/async-storage";
+
 
 import Logout from './logout';
-import SearchBar from './searchBar';
 
 const WelcomeBar = () => {
+    const [info, setInfo] = useState({
+        name : "Usuario",
+        email: "Email"
+    })
+
+    useEffect(() => {
+        const fetchToken = async () => {
+          const token = await AsyncStorage.getItem("token");
+          console.log(token)
+          setInfo({
+            name : token.substring(0,12),
+            email : token.substring(12,24)
+          })
+        };
+      
+        fetchToken();
+      }, []);
+      
+
     return (
         <View style={styles.container}>
             <View style={styles.rowContainer}>
-                <Text style={styles.text}>Nombre de Usuario</Text>
+                <Text style={styles.text}>{info.name}</Text>
+                <Text style={styles.text}>{info.email}</Text>
                 <Logout/>
             </View>
-            <SearchBar/>
         </View>
     )
 }
