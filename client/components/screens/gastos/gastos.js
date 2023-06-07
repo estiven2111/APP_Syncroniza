@@ -1,12 +1,12 @@
 import React from 'react';
 import { ScrollView, View, Text, TextInput, TouchableOpacity, StyleSheet } from 'react-native';
 import Constants from "expo-constants";
-import WelcomeBar from "../../welcomeBar";
+import SearchBar from '../../searchBar';
 
 const Gastos = () => {
     return (
         <View style={styles.container}>
-            <WelcomeBar/>
+            <SearchBar/>
             <ScrollView >
                 <View style={styles.inputCont}>
                     <TextInput style={styles.input} placeholder='*Buscar anticipo'/>
@@ -69,7 +69,7 @@ const styles = StyleSheet.create({
     },
     footer: {
         
-      marginBottom: 35
+      marginBottom: 40
     }
   });
 export default Gastos 

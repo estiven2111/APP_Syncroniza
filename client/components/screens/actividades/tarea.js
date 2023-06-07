@@ -29,14 +29,13 @@ const Tarea = (props) => {
 const styles = StyleSheet.create({
     title: {
         width:"40%",
-        borderColor: "black",
-        borderWidth: 2
     },
     container: {
         flexDirection: "row",
         alignItems: "center",
         justifyContent: "space-between",
-        paddingHorizontal: 8
+        paddingLeft: 15,
+        paddingRight: 8
     },
     checkBoxContainer: {
         padding: 0,

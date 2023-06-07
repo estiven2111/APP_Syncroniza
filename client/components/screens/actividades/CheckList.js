@@ -29,7 +29,7 @@ const Checklist = () => {
               <Text>fecha</Text>
               <Text style={styles.compTitle}>{compo.componente}</Text>
               {compo.actividades.map((act) => (
-                <View>
+                <View style={styles.actividad}>
                   <Tarea actividad={act.actividad}/>
                 </View>
                 ))}
@@ -37,28 +37,40 @@ const Checklist = () => {
           ))}
         </View>
       ))}
+      <View style={styles.footer}></View>
     </View>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
-    paddingHorizontal: 15,
-    backgroundColor: 'lightgrey',
-    margin: 10,
-    borderRadius: 10,
+    marginHorizontal: 10,
+    marginTop:5
   },
   pro: {
-    backgroundColor: "blue",
-    marginVertical: 5
+    marginBottom: 10,
+    borderRadius: 5,
+    
+
   },
   compo: {
-    backgroundColor: "red",
-    marginVertical: 5
+    marginVertical: 2,
+    backgroundColor: 'lightgrey',
+    borderRadius: 10,
+    padding:2
   },
   compTitle: {
     marginHorizontal: 5
+  },
+  actividad: {
+    backgroundColor: "grey",
+    marginVertical: 5,
+    borderRadius: 3
+  },
+  footer: {
+    marginBottom: 28
   }
 });
 
 export default Checklist;
+
