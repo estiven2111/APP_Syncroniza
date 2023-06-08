@@ -13,6 +13,7 @@ const LoadProyect = async (Doc_id) => {
   );
 
   let proyect;
+  let Cod_parte;
   let obj_proyecto = {
     proyectos: [],
   };
@@ -20,17 +21,31 @@ const LoadProyect = async (Doc_id) => {
 
   for (const i of idnodo[0]) {
     proyect = await sequelize.query(
-      `SELECT * FROM TBL_SER_PROYECTOS WHERE SKU IN (SELECT DISTINCT(SKU_Proyecto) FROM TBL_SER_ProyectoActividadesEmpleados WHERE N_DocumentoEmpleado = :docId AND idNodo = ${i.idNodoProyecto}) ORDER BY sku, idNodo`,
+      `SELECT * FROM TBL_SER_PROYECTOS WHERE SKU IN (SELECT DISTINCT(SKU_Proyecto) 
+      FROM TBL_SER_ProyectoActividadesEmpleados WHERE 
+      N_DocumentoEmpleado = :docId AND idNodo = ${i.idNodoProyecto}) ORDER BY sku, idNodo`,
       { replacements: { docId: Doc_id } }
     );
+    
+    let ID_parte = parseInt(proyect[0][0].Cod_parte) ;
     let idPadre = proyect[0][0].idPadre;
     let tipoParte;
     let Parte = idPadre;
     let actividad = "";
     let componente = "";
     let proyecto = "";
+    let fecha = "";
+    let frecuencia = 0
+    let entregable = false
+    Cod_parte = await sequelize.query(
+      `select* from TBL_ESP_Procesos  where ID = ${ID_parte}`,
+      // {replacements:{Codigo:}}
+    )
     if (proyect[0][0].TipoParte === "Actividad") {
       actividad = proyect[0][0].Nombre;
+      frecuencia = Cod_parte[0][0].FrecuenciaVeces
+      entregable = Cod_parte[0][0].AplicaEntregables
+      
     }
     do {
       tipoParte = await sequelize.query(
@@ -43,6 +58,8 @@ const LoadProyect = async (Doc_id) => {
       }
       if (tipoParte[0][0].TipoParte === "Cabecera") {
         proyecto = tipoParte[0][0].Nombre;
+         fecha = new Date(proyect[0][0].Fecha).toISOString().split("T")[0];
+       
       }
       //? Verificar si el proyecto ya existe en el objeto obj_proyecto
       let proyectoExistente = obj_proyecto.proyectos.find(
@@ -57,23 +74,27 @@ const LoadProyect = async (Doc_id) => {
 
         if (componenteExistente) {
           //? Agregar la actividad al componente existente
-          componenteExistente.actividades.push({ actividad: actividad });
+          
+          componenteExistente.actividades.push({ actividad: actividad,frecuencia,entregable });
         } else {
           //? Agregar un nuevo componente con la actividad al proyecto existente
           proyectoExistente.componentes.push({
             componente: componente,
-            actividades: [{ actividad: actividad }],
+            actividades: [{ actividad: actividad,frecuencia,entregable }],
           });
         }
       } else {
         //? Agregar un nuevo proyecto con el componente y actividad
         if (proyecto !== "") {
+         
           obj_proyecto.proyectos?.push({
+            fecha,
             proyecto: proyecto,
             componentes: [
               {
                 componente: componente,
-                actividades: [{ actividad: actividad }],
+                actividades: [{ actividad: actividad,
+                                frecuencia,entregable}],
               },
             ],
           });
