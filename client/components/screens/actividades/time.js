@@ -1,16 +1,18 @@
 import React, {useState, useContext} from 'react';
-import { AuthContext } from '../../context/context';
 import { View, Text, TouchableOpacity, Modal, StyleSheet } from "react-native";
 import { Overlay } from 'react-native-elements';
 import { TimeInput } from '../../../utils/inputControl';
 
 
 const Time = (props) => {
+    // Esto maneja la alerta
     const [isVisible, setIsVisible] = useState(false);
     const toggleOverlay = () => {
       setIsVisible(!isVisible);
     };
-    const {startTime, endTime} = useContext(AuthContext)
+    const [startTime, setStartTime] = useState("");
+    const [endTime, setEndTime] = useState("");
+
     const [modalVisible, setModalVisible] = useState(false);
     const openModal = () => {
       setModalVisible(true);
@@ -22,6 +24,14 @@ const Time = (props) => {
             toggleOverlay()
         }
     };
+
+    const updateStartTime = (value) => {
+        setStartTime(value);
+      };
+    
+      const updateEndTime = (value) => {
+        setEndTime(value);
+      };
 
 
 
@@ -36,11 +46,11 @@ const Time = (props) => {
                     <Text>Fecha: fx()</Text>
                     <View style={styles.hour}>
                         <Text>Hora inicio:</Text>
-                        <TimeInput start="start"/>
+                        <TimeInput position="start" value={startTime} onChange={updateStartTime}/>
                     </View>
                     <View style={styles.hour}>
                         <Text>Hora final:</Text>
-                        <TimeInput/>
+                        <TimeInput position="end" value={endTime} onChange={updateEndTime}/>
                     </View>
                     <Text>Duracion: Fx()</Text>
                     <TouchableOpacity onPress={closeModal}>
