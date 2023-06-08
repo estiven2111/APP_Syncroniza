@@ -67,7 +67,7 @@ const styles = StyleSheet.create({
     marginHorizontal: 5
   },
   actividad: {
-    backgroundColor: "grey",
+    backgroundColor: "rgba(72, 169, 229, 0.735);", //! dejar este color
     marginVertical: 5,
     borderRadius: 3
   },

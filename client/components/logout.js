@@ -3,11 +3,14 @@ import React from "react";
 import { TouchableOpacity, StyleSheet } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import Icon from "react-native-vector-icons/FontAwesome";
+import api from "../api/api";
 
 const Logout = () => {
+  
   const navigation = useNavigation();
   const handleLogout = () => {
     AsyncStorage.removeItem("token");
+    api.get("/proyect/logout")
     navigation.navigate("Login");
   };
 
