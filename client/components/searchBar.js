@@ -1,12 +1,15 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { View, TextInput, FlatList, Text, TouchableOpacity, Keyboard } from 'react-native';
 
+import { AuthContext} from "./context/context"
 import api from "../api/api"
 
 const SearchBar = () => {
   const [searchText, setSearchText] = useState('');
   const [options, setOptions] = useState([]);
   const [showOptions, setShowOptions] = useState(false);
+
+  const {finalValue, inputValue} = useContext(AuthContext)
 
   useEffect(() => {
     const fetchOptions = async () => {
@@ -31,19 +34,21 @@ const SearchBar = () => {
     if (text !== searchText) {
         setSearchText(text);
         setShowOptions(true);
-    }
-  };
-
-  const renderOption = ({ item }) => (
-    <TouchableOpacity onPress={() => handleSelectOption(item)}>
+      }
+    };
+    
+    const renderOption = ({ item }) => (
+      <TouchableOpacity onPress={() => handleSelectOption(item)}>
       <Text style={styles.option}>{item}</Text>
     </TouchableOpacity>
   );
-
+  
   const handleSelectOption = (option) => {
     Keyboard.dismiss(); // Cierra el teclado
     setSearchText(option);
     setShowOptions(false);
+    finalValue(option),
+    console.log(inputValue)
   };
 
   return (
@@ -82,7 +87,6 @@ const styles = {
     borderRadius: 10
   },
   modalContainer: {
-    marginTop: 50,
     backgroundColor: '#FFFFFF',
     padding: 10,
   },

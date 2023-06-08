@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import { View, Text, TextInput, StyleSheet } from 'react-native';
+import { View, Text, StyleSheet } from 'react-native';
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 
@@ -51,8 +51,8 @@ const styles = StyleSheet.create({
       
     },
     text: {
-        margin: 10,
-        fontSize: 16,
+        marginHorizontal: 5,
+        fontSize: 14,
         fontWeight: 'bold',
     },
     icon: {
