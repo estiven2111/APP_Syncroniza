@@ -26,15 +26,15 @@ const Checklist = () => {
 
   return (
     <View style={styles.container}>
-      {response?.map((pro, index) => (
-        <View key={index} style={styles.pro}>
+      {response?.map((pro,index) => (
+       <View key={index} style={styles.pro}>
           {pro.componentes.map((compo,index) => (
             <View key={index} style={styles.compo}>
-              <Text>fecha</Text>
+              <Text style={styles.compTitle}>{compo.fecha}</Text>
               <Text style={styles.compTitle}>{compo.componente}</Text>
               {compo.actividades.map((act,index) => (
                 <View key={index} style={styles.actividad}>
-                  <Tarea actividad={act.actividad}/>
+                  <Tarea actividad={act.actividad} entregable={act.entregable}/>
                 </View>
                 ))}
             </View>

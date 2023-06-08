@@ -55,10 +55,11 @@ const LoadProyect = async (Doc_id) => {
       Parte = tipoParte[0][0].idPadre;
       if (tipoParte[0][0].TipoParte === "PP") {
         componente = tipoParte[0][0].Nombre;
+        fecha = new Date(proyect[0][0].Fecha).toISOString().split("T")[0];
       }
       if (tipoParte[0][0].TipoParte === "Cabecera") {
         proyecto = tipoParte[0][0].Nombre;
-         fecha = new Date(proyect[0][0].Fecha).toISOString().split("T")[0];
+         //fecha = new Date(proyect[0][0].Fecha).toISOString().split("T")[0];
        
       }
       //? Verificar si el proyecto ya existe en el objeto obj_proyecto
@@ -79,6 +80,7 @@ const LoadProyect = async (Doc_id) => {
         } else {
           //? Agregar un nuevo componente con la actividad al proyecto existente
           proyectoExistente.componentes.push({
+            fecha,
             componente: componente,
             actividades: [{ actividad: actividad,frecuencia,entregable }],
           });
@@ -88,10 +90,10 @@ const LoadProyect = async (Doc_id) => {
         if (proyecto !== "") {
          
           obj_proyecto.proyectos?.push({
-            fecha,
             proyecto: proyecto,
             componentes: [
               {
+                fecha,
                 componente: componente,
                 actividades: [{ actividad: actividad,
                                 frecuencia,entregable}],

@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import { View, Text, TextInput, TouchableOpacity, Modal, StyleSheet } from "react-native";
 
-const Entregables = () => {
+const Entregables = (props) => {
     const [modalVisible, setModalVisible] = useState(false);
 
     const openModal = () => {
@@ -13,7 +13,7 @@ const Entregables = () => {
     };
     return (
         <View>
-        <TouchableOpacity style={styles.button} onPress={openModal}>
+        <TouchableOpacity style={props.entrega?styles.button:styles.disable} disabled={props.entrega?false:true} onPress={openModal}>
             <Text>...</Text>
         </TouchableOpacity>
         <Modal animationType= "fade" visible={modalVisible} onRequestClose={closeModal} transparent={true}>
@@ -35,6 +35,13 @@ const Entregables = () => {
 const styles = StyleSheet.create({
     button: {
         backgroundColor: "white",
+        padding: 5,
+        height: 30,
+        borderRadius: 8,
+        justifyContent: "center"
+    },
+    disable: {
+        backgroundColor: "rgba(108, 108, 110, 0.393)",
         padding: 5,
         height: 30,
         borderRadius: 8,
