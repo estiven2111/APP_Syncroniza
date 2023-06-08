@@ -1,35 +1,39 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { View, FlatList, Text, StyleSheet } from 'react-native';
+import { AuthContext } from '../../context/context';
 
 import api from '../../../api/api';
 import Tarea from './tarea';
 
 const Checklist = () => {
   const [response, setResponse] = useState([]);
+  const {inputValue} = useContext(AuthContext)
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await api.get(`/proyect?search=5001`);
-        setResponse(response.data);
+        console.log(inputValue)
+        if(inputValue!==""){
+          const response = await api.get(`/proyect?search=${inputValue}`);
+          setResponse(response?.data);
+        }
       } catch (error) {
         console.error(error);
       }
     };
-
     fetchData();
-  }, []);
+  }, [inputValue]);
 
   return (
     <View style={styles.container}>
-      {response.map((pro) => (
-        <View key={pro.proyecto} style={styles.pro}>
-          {pro.componentes.map((compo) => (
-            <View key={compo.componente} style={styles.compo}>
+      {response?.map((pro, index) => (
+        <View key={index} style={styles.pro}>
+          {pro.componentes.map((compo,index) => (
+            <View key={index} style={styles.compo}>
               <Text>fecha</Text>
               <Text style={styles.compTitle}>{compo.componente}</Text>
-              {compo.actividades.map((act) => (
-                <View style={styles.actividad}>
+              {compo.actividades.map((act,index) => (
+                <View key={index} style={styles.actividad}>
                   <Tarea actividad={act.actividad}/>
                 </View>
                 ))}
