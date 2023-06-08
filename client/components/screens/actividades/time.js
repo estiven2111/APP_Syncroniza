@@ -3,7 +3,7 @@ import { View, Text, TouchableOpacity, Modal, StyleSheet } from "react-native";
 import { TimeInput } from '../../../utils/inputControl';
 
 
-const Time = () => {
+const Time = (props) => {
     const [modalVisible, setModalVisible] = useState(false);
 
     const openModal = () => {
@@ -15,7 +15,7 @@ const Time = () => {
     };
     return (
         <View>
-        <TouchableOpacity style={styles.button} onPress={openModal}>
+        <TouchableOpacity  style={props.entrega?styles.button:styles.disable} onPress={openModal}>
             <Text>Tiempo</Text>
         </TouchableOpacity>
         <Modal animationType= "fade" visible={modalVisible} onRequestClose={closeModal} transparent={true}>
@@ -43,6 +43,14 @@ const Time = () => {
 
 const styles = StyleSheet.create({
     button: {
+        backgroundColor: "white",
+        padding: 5,
+        height: 30,
+        borderRadius: 8,
+        justifyContent: "center"
+    },
+    disable: {
+        // backgroundColor: "rgba(108, 108, 110, 0.393)",
         backgroundColor: "white",
         padding: 5,
         height: 30,

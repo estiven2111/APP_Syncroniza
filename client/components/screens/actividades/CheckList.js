@@ -10,7 +10,7 @@ const Checklist = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await api.get(`/proyect?search=5001`);
+        const response = await api.get(`/proyect?search=50017`);
         setResponse(response.data);
       } catch (error) {
         console.error(error);
@@ -22,15 +22,15 @@ const Checklist = () => {
 
   return (
     <View style={styles.container}>
-      {response.map((pro) => (
-        <View key={pro.proyecto} style={styles.pro}>
-          {pro.componentes.map((compo) => (
-            <View key={compo.componente} style={styles.compo}>
-              <Text>fecha</Text>
+      {response.map((pro,index) => (
+       <View key={index} style={styles.pro}>
+          {pro.componentes.map((compo,index) => (
+            <View key={index} style={styles.compo}>
+              <Text style={styles.compTitle}>{compo.fecha}</Text>
               <Text style={styles.compTitle}>{compo.componente}</Text>
-              {compo.actividades.map((act) => (
-                <View style={styles.actividad}>
-                  <Tarea actividad={act.actividad}/>
+              {compo.actividades.map((act,index) => (
+                <View key={index} style={styles.actividad}>
+                  <Tarea actividad={act.actividad} entregable={act.entregable}/>
                 </View>
                 ))}
             </View>

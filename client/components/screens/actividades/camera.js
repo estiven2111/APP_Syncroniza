@@ -3,7 +3,7 @@ import { View, Text, TouchableOpacity, Modal, StyleSheet, Dimensions } from "rea
 import UseCamera from '../../../utils/useCamera';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
-const Camera = () => {
+const Camera = (props) => {
     const [openCamera, setOpenCamera] = useState(false);
 
     const openCam = () => {
@@ -15,7 +15,7 @@ const Camera = () => {
     };
     return (
         <View>
-        <TouchableOpacity style={styles.button} onPress={openCam}>
+        <TouchableOpacity style={props.entrega?styles.button:styles.disable} disabled={props.entrega?false:true} onPress={openCam}>
             <Icon name="camera" size={20} color="black" />
         </TouchableOpacity>
         
@@ -38,6 +38,13 @@ const styles = StyleSheet.create({
         height: 30,
         borderRadius: 8,
         justifyContent: 'center',
+      },
+      disable: {
+          backgroundColor: "rgba(108, 108, 110, 0.393)",
+          padding: 5,
+          height: 30,
+          borderRadius: 8,
+          justifyContent: "center"
       },
       modalContainer: {
         // flex: 1,
