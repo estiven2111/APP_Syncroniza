@@ -8,28 +8,23 @@ import { color } from "react-native-elements/dist/helpers";
 
 const Tarea = (props) => {
   const [checked, setChecked] = useState(false);
-  const [entrega, setEntrega] = useState(false);
-  console.log("props",props.entregable)
-  useEffect(()=>{
-    setEntrega(props.entregable)
-    console.log("entregable",entrega)
-  },[props])
+  
   const handleCheckboxToggle = () => {
     setChecked(!checked);
   };
 
   return (
     <View style={styles.container}>
-      <Text style={entrega?styles.title:styles.disable} >{props.actividad}</Text>
+      <Text style={props.entregable?styles.title:styles.disable} >{props.actividad}</Text>
       <CheckBox
         checked={checked}
         onPress={handleCheckboxToggle}
         containerStyle={styles.checkBoxContainer}
         checkedColor="black"
       />
-      <Time entrega={entrega}/>
-      <Entregables entrega={entrega}/>
-      <Camera entrega={entrega}/>
+      <Time entrega={props.entregable}/>
+      <Entregables entrega={props.entregable}/>
+      <Camera entrega={props.entregable}/>
     </View>
   );
 };
