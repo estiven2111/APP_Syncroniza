@@ -5,7 +5,7 @@ import { Overlay } from 'react-native-elements';
 import { TimeInput } from '../../../utils/inputControl';
 
 
-const Time = () => {
+const Time = (props) => {
     const [isVisible, setIsVisible] = useState(false);
     const toggleOverlay = () => {
       setIsVisible(!isVisible);
