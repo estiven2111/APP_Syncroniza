@@ -10,7 +10,7 @@ const Checklist = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await api.get(`/proyect?search=5`);
+        const response = await api.get(`/proyect?search=5001`);
         setResponse(response.data);
       } catch (error) {
         console.error(error);
@@ -63,7 +63,7 @@ const styles = StyleSheet.create({
     marginHorizontal: 5
   },
   actividad: {
-    backgroundColor: "grey",
+    backgroundColor: "rgba(72, 169, 229, 0.735);", //! dejar este color
     marginVertical: 5,
     borderRadius: 3
   },
