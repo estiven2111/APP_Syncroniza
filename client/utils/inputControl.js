@@ -1,8 +1,12 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
+
+import { AuthContext } from '../components/context/context';
 import { TextInput, StyleSheet } from 'react-native';
 
-const TimeInput = () => {
-    const [time, setTime] = useState('');
+const TimeInput = ({start}) => {
+    const {persistStartTime, startTime, persistEndTime, endTime} = useContext(AuthContext)
+    const [time, setTime] = useState(start==="start"?startTime:endTime);
+    console.log(time)
 
     const handleInputChange = (value) => {
     // Eliminar caracteres no numéricos
@@ -13,20 +17,22 @@ const TimeInput = () => {
 
     if (numericValue.length > 0) {
       // Agregar ":" después de los primeros dos caracteres
-        formattedValue = numericValue.replace(/(\d{2})(\d{0,2})/, '$1:$2');
+      formattedValue = numericValue.replace(/(\d{2})(\d{0,2})/, '$1:$2');
     }
-
+    
     // Actualizar el estado con el valor formateado
-        // Validar si el valor es una hora válida
-        const isValidTime = /^([0-1][0-9]|2[0-3])(?::([0-5][0-9]?){0,2})?$/.test(formattedValue);
-
-        // Actualizar el estado con el valor formateado si es válido, de lo contrario mantener el valor anterior
-        if (formattedValue.length>2) {
-            console.log("aqui",formattedValue, isValidTime)
-            setTime(isValidTime ? formattedValue : time);
-        } else {
-            setTime(formattedValue)
-        }
+    // Validar si el valor es una hora válida
+    const isValidTime = /^([0-1][0-9]|2[0-3])(?::([0-5][0-9]?){0,2})?$/.test(formattedValue);
+    
+    // Actualizar el estado con el valor formateado si es válido, de lo contrario mantener el valor anterior
+    // if (formattedValue.length===0 ||formattedValue.length===5) {
+      start==="start"?persistStartTime(formattedValue):persistEndTime(formattedValue)
+        // }
+    if (formattedValue.length>2) {
+        setTime(isValidTime ? formattedValue : time);
+    } else {
+        setTime(formattedValue)
+    }
     };
 
   return (
