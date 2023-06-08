@@ -1,18 +1,30 @@
-import React, {useState} from 'react';
+import React, {useState, useContext} from 'react';
+import { AuthContext } from '../../context/context';
 import { View, Text, TouchableOpacity, Modal, StyleSheet } from "react-native";
+import { Overlay } from 'react-native-elements';
 import { TimeInput } from '../../../utils/inputControl';
 
 
 const Time = () => {
+    const [isVisible, setIsVisible] = useState(false);
+    const toggleOverlay = () => {
+      setIsVisible(!isVisible);
+    };
+    const {startTime, endTime} = useContext(AuthContext)
     const [modalVisible, setModalVisible] = useState(false);
-
     const openModal = () => {
       setModalVisible(true);
     };
-  
     const closeModal = () => {
-      setModalVisible(false);
+        if ((startTime.length===0 || startTime.length===5) && (endTime.length===0 || endTime.length===5)) {
+            setModalVisible(false);
+        } else {
+            toggleOverlay()
+        }
     };
+
+
+
     return (
         <View>
         <TouchableOpacity style={styles.button} onPress={openModal}>
@@ -24,7 +36,7 @@ const Time = () => {
                     <Text>Fecha: fx()</Text>
                     <View style={styles.hour}>
                         <Text>Hora inicio:</Text>
-                        <TimeInput/>
+                        <TimeInput start="start"/>
                     </View>
                     <View style={styles.hour}>
                         <Text>Hora final:</Text>
@@ -34,6 +46,9 @@ const Time = () => {
                     <TouchableOpacity onPress={closeModal}>
                         <Text>OK</Text>
                     </TouchableOpacity>
+                    <Overlay isVisible={isVisible} onBackdropPress={toggleOverlay}>
+                        <Text>Formato no valido</Text>
+                    </Overlay>
                 </View>
             </View>
         </Modal>

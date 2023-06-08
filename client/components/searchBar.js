@@ -9,7 +9,7 @@ const SearchBar = () => {
   const [options, setOptions] = useState([]);
   const [showOptions, setShowOptions] = useState(false);
 
-  const {finalValue, inputValue} = useContext(AuthContext)
+  const {finalValue} = useContext(AuthContext)
 
   useEffect(() => {
     const fetchOptions = async () => {
@@ -47,8 +47,7 @@ const SearchBar = () => {
     Keyboard.dismiss(); // Cierra el teclado
     setSearchText(option);
     setShowOptions(false);
-    finalValue(option),
-    console.log(inputValue)
+    finalValue(option)
   };
 
   return (
