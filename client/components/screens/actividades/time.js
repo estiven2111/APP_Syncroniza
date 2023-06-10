@@ -1,10 +1,10 @@
-import React, {useState, useContext} from 'react';
+import React, {useState} from 'react';
 import { View, Text, TouchableOpacity, Modal, StyleSheet } from "react-native";
 import { Overlay } from 'react-native-elements';
 import { TimeInput } from '../../../utils/inputControl';
 
 
-const Time = ({entrega, value, onChangeStartTime, onChangeEndTime}) => {
+const Time = ({entrega, value, onChangeStartTime, onChangeEndTime, onPress}) => {
     // Esto maneja la alerta
     const [isVisible, setIsVisible] = useState(false);
     const toggleOverlay = () => {
@@ -20,8 +20,10 @@ const Time = ({entrega, value, onChangeStartTime, onChangeEndTime}) => {
     };
     const closeModal = () => {
         if ((value.startTime.length===0 || value.startTime.length===5) && (value.endTime.length===0 || value.endTime.length===5)) {
+            onPress(true)
             setModalVisible(false);
         } else {
+            onPress(false)
             toggleOverlay()
         }
     };

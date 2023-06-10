@@ -8,6 +8,10 @@ const ContextProvider = ({children}) => {
     const finalValue = (input) => {
         setInputValue(input)
     }
+
+    const resetInputValue = () => {
+        setInputValue("")
+    }
     
     const [startTime, setStartTime] = useState("")
     const [endTime, setEndTime] = useState("")
@@ -19,7 +23,7 @@ const ContextProvider = ({children}) => {
     }
 
     return(
-        <AuthContext.Provider value={{finalValue, inputValue, startTime, persistStartTime, endTime, persistEndTime }}>
+        <AuthContext.Provider value={{finalValue, inputValue, startTime, persistStartTime, endTime, persistEndTime, resetInputValue }}>
             {children}
         </AuthContext.Provider>
     )
