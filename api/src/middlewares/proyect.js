@@ -113,7 +113,6 @@ const LoadProyect = async (Doc_id) => {
 //todo hacer consulta para proyectos enviando respuesta automatica
 const getProyectName = async (req, res) => {
   const { search } = req.query;
-  console.log(search);
   const proyects = JSON.parse(localStorage.getItem(`Proyecto`));
   // localStorage.removeItem(`Proyecto`)
   let NomProyect

@@ -11,7 +11,6 @@ const Login = () => {
 
   const handleGetToken = async () => {
     const datatoken = await AsyncStorage.getItem("token");
-    console.log(datatoken, "tokennnnn")
     if (!datatoken) {
       navigation.navigate("Login");
     } else {

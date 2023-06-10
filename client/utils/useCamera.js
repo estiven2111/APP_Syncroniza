@@ -17,7 +17,7 @@ const UseCamera = () => {
 
 
     if (!permission) {
-      return <View />;git
+      return <View />;
     }
     if (!permission.granted) {
       return (
