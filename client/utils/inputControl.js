@@ -1,10 +1,9 @@
-import React, { useState, useContext } from 'react';
+import React, { useState  } from 'react';
 
 import { TextInput, StyleSheet } from 'react-native';
 
 const TimeInput = ({ value, onChange}) => {
     const [time, setTime] = useState(value);
-    console.log(time)
 
     const handleInputChange = (value) => {
     // Eliminar caracteres no numéricos

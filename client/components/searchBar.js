@@ -25,15 +25,18 @@ const SearchBar = () => {
 
     if (searchText === '') {
       setShowOptions(false);
-    } else {
+    } else if (!options.includes(searchText)) { 
       fetchOptions();
     }
+    
   }, [searchText]);
 
   const handleSearch = (text) => {
     if (text !== searchText) {
         setSearchText(text);
         setShowOptions(true);
+      } else {
+        setShowOptions(false); 
       }
     };
     
@@ -44,10 +47,11 @@ const SearchBar = () => {
   );
   
   const handleSelectOption = (option) => {
-    Keyboard.dismiss(); // Cierra el teclado
+    Keyboard.dismiss();
     setSearchText(option);
-    setShowOptions(false);
     finalValue(option)
+    setShowOptions(false);
+    
   };
 
   return (

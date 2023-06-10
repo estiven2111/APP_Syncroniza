@@ -13,6 +13,17 @@ const Tarea = (props) => {
     setChecked(!checked);
   };
 
+  const [startTime, setStartTime] = useState("");
+  const [endTime, setEndTime] = useState("");
+  const updateStartTime = (value) => {
+    setStartTime(value);
+  };
+  const updateEndTime = (value) => {
+    setEndTime(value);
+  };
+
+
+
   return (
     <View style={styles.container}>
       <Text style={props.entregable?styles.title:styles.disable} >{props.actividad}</Text>
@@ -22,7 +33,7 @@ const Tarea = (props) => {
         containerStyle={styles.checkBoxContainer}
         checkedColor="black"
       />
-      <Time entrega={props.entregable}/>
+      <Time entrega={props.entregable} value={{startTime, endTime}} onChangeStartTime={updateStartTime} onChangeEndTime={updateEndTime}/>
       <Entregables entrega={props.entregable}/>
       <Camera entrega={props.entregable}/>
     </View>

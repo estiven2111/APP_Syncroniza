@@ -12,7 +12,6 @@ const Checklist = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        console.log(inputValue)
         if(inputValue!==""){
           const response = await api.get(`/proyect?search=${inputValue}`);
           setResponse(response?.data);
