@@ -9,8 +9,8 @@ import { color } from "react-native-elements/dist/helpers";
 const Tarea = (props) => {
   const [checked, setChecked] = useState(false);
   
-  const handleCheckboxToggle = () => {
-    setChecked(!checked);
+  const handleCheckboxToggle = (condition) => {
+    setChecked(condition);
   };
 
   const [startTime, setStartTime] = useState("");
@@ -33,7 +33,7 @@ const Tarea = (props) => {
         containerStyle={styles.checkBoxContainer}
         checkedColor="black"
       />
-      <Time entrega={props.entregable} value={{startTime, endTime}} onChangeStartTime={updateStartTime} onChangeEndTime={updateEndTime}/>
+      <Time entrega={props.entregable} value={{startTime, endTime}} onChangeStartTime={updateStartTime} onChangeEndTime={updateEndTime} onPress={handleCheckboxToggle}/>
       <Entregables entrega={props.entregable}/>
       <Camera entrega={props.entregable}/>
     </View>
