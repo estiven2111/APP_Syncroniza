@@ -26,8 +26,8 @@ const LoadProyect = async (Doc_id) => {
       N_DocumentoEmpleado = :docId AND idNodo = ${i.idNodoProyecto}) ORDER BY sku, idNodo`,
       { replacements: { docId: Doc_id } }
     );
-    
-    let ID_parte = parseInt(proyect[0][0].Cod_parte) ;
+
+    let ID_parte = parseInt(proyect[0][0].Cod_parte);
     let idPadre = proyect[0][0].idPadre;
     let tipoParte;
     let Parte = idPadre;
@@ -35,17 +35,16 @@ const LoadProyect = async (Doc_id) => {
     let componente = "";
     let proyecto = "";
     let fecha = "";
-    let frecuencia = 0
-    let entregable = false
+    let frecuencia = 0;
+    let entregable = false;
     Cod_parte = await sequelize.query(
-      `select* from TBL_ESP_Procesos  where ID = ${ID_parte}`,
+      `select* from TBL_ESP_Procesos  where ID = ${ID_parte}`
       // {replacements:{Codigo:}}
-    )
+    );
     if (proyect[0][0].TipoParte === "Actividad") {
       actividad = proyect[0][0].Nombre;
-      frecuencia = Cod_parte[0][0].FrecuenciaVeces
-      entregable = Cod_parte[0][0].AplicaEntregables
-      
+      frecuencia = Cod_parte[0][0].FrecuenciaVeces;
+      entregable = Cod_parte[0][0].AplicaEntregables;
     }
     do {
       tipoParte = await sequelize.query(
@@ -55,12 +54,12 @@ const LoadProyect = async (Doc_id) => {
       Parte = tipoParte[0][0].idPadre;
       if (tipoParte[0][0].TipoParte === "PP") {
         componente = tipoParte[0][0].Nombre;
+        //? saca la fecha exacta del string
         fecha = new Date(proyect[0][0].Fecha).toISOString().split("T")[0];
       }
       if (tipoParte[0][0].TipoParte === "Cabecera") {
         proyecto = tipoParte[0][0].Nombre;
-         //fecha = new Date(proyect[0][0].Fecha).toISOString().split("T")[0];
-       
+        //fecha = new Date(proyect[0][0].Fecha).toISOString().split("T")[0];
       }
       //? Verificar si el proyecto ya existe en el objeto obj_proyecto
       let proyectoExistente = obj_proyecto.proyectos.find(
@@ -75,28 +74,30 @@ const LoadProyect = async (Doc_id) => {
 
         if (componenteExistente) {
           //? Agregar la actividad al componente existente
-          
-          componenteExistente.actividades.push({ actividad: actividad,frecuencia,entregable });
+
+          componenteExistente.actividades.push({
+            actividad: actividad,
+            frecuencia,
+            entregable,
+          });
         } else {
           //? Agregar un nuevo componente con la actividad al proyecto existente
           proyectoExistente.componentes.push({
             fecha,
             componente: componente,
-            actividades: [{ actividad: actividad,frecuencia,entregable }],
+            actividades: [{ actividad: actividad, frecuencia, entregable }],
           });
         }
       } else {
         //? Agregar un nuevo proyecto con el componente y actividad
         if (proyecto !== "") {
-         
           obj_proyecto.proyectos?.push({
             proyecto: proyecto,
             componentes: [
               {
                 fecha,
                 componente: componente,
-                actividades: [{ actividad: actividad,
-                                frecuencia,entregable}],
+                actividades: [{ actividad: actividad, frecuencia, entregable }],
               },
             ],
           });
@@ -115,9 +116,12 @@ const getProyectName = async (req, res) => {
   console.log(search);
   const proyects = JSON.parse(localStorage.getItem(`Proyecto`));
   // localStorage.removeItem(`Proyecto`)
-  const NomProyect = proyects.proyectos
+  let NomProyect
+ 
+    NomProyect = proyects.proyectos
     .filter((obj) => obj.proyecto.includes(search.toUpperCase()))
     .map((obj) => obj.proyecto);
+ 
 
   if (NomProyect.length <= 0) {
     return res.json("No hay royectos con este nombre ");
@@ -133,10 +137,56 @@ const getProyect = async (req, res) => {
   const { search } = req.query;
   const proyects = JSON.parse(localStorage.getItem(`Proyecto`));
   //? me devuelve todo el objeto
-  const proyect = proyects.proyectos.filter((obj) => {
+  let proyect
+
+   proyect = proyects.proyectos.filter((obj) => {
     return obj.proyecto.includes(search.toUpperCase());
   });
-  res.json(proyect);
+ 
+
+res.json(proyect);
+  };
+
+const registerActivities = async (req, res) => {
+  const { inicio, fin, proyect, component, activity } = req.body;
+  let HTotal
+  //? sumar total de tiempo en horario
+  if (fin < inicio  ) {
+   res.json("la hora final debe ser mayor que la inicial")
+   return
+  }else{
+     HTotal = fin - inicio
+  }
+ 
+  
+
+   var fechaActual = new Date();
+  // var fechaActual = new Date().toLocaleString("es-CO", {
+  //   timeZone: "America/Bogota",
+  // });
+   fecha = new Date(fechaActual).toISOString().split("T")[0];
+   
+ 
+  await sequelize.query(
+    `INSERT INTO [dbo].[TBL_SER_RegistroActividades]
+    ([Nombre_Proyecto]
+    ,[Nombre_Componente]
+    ,[Nombre_actividad]
+    ,[Fecha]
+    ,[Hora_Inicio]
+    ,[Hora_Fin]
+    ,[Hora_Total])
+VALUES
+    ('${proyect}',
+    '${component}',
+    '${activity}',
+    '${fecha}',
+    ${inicio},
+    ${fin},
+    ${HTotal})
+`
+  );
+  res.json("ok registro");
 };
 
 const logout = (req, res) => {
@@ -151,5 +201,6 @@ module.exports = {
   getProyectName,
   getProyect,
   LoadProyect,
+  registerActivities,
   logout,
 };

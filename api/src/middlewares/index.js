@@ -3,6 +3,7 @@ const login = require("./login");
 const {
   getProyectName,
   getProyect,
+  registerActivities,
   logout
 } = require("./proyect");
 
@@ -10,5 +11,6 @@ module.exports = {
   login,
   getProyectName,
   getProyect,
+  registerActivities,
   logout
 };
