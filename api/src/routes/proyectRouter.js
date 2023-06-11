@@ -1,11 +1,15 @@
-const {Router} = require("express")
-const ProyectRouter = Router()
-const {proyect,componet,getComponet,activity} = require("../middlewares/proyect")
+const { Router } = require("express");
+const ProyectRouter = Router();
+const {
+  getProyectName,
+  getProyect,
+  registerActivities,
+  logout
+} = require("../middlewares/index");
 
-ProyectRouter.post("/",proyect)
-ProyectRouter.post("/com",componet)
-ProyectRouter.get("/com",getComponet)
-ProyectRouter.post("/act",activity)
-
+ProyectRouter.get("/search", getProyectName);
+ProyectRouter.get("/", getProyect);
+ProyectRouter.get("/logout",logout);
+ProyectRouter.post("/hours",registerActivities);
 
 module.exports = ProyectRouter;

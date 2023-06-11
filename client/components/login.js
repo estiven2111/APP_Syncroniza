@@ -27,8 +27,11 @@ const Login = () => {
   const handleLogin = async () => {
     try {
       const response = await api.post("/login", { user, password });
-      const token = response.data.token;
-      await AsyncStorage.setItem("token", token); // Almacena el token en el dispositivo
+      await AsyncStorage.multiSet([
+        ["name", response.data.userName],
+        ["token", response.data.token],
+        ["email", response.data.userEmail]
+      ]);
       setPassword("");
 
       // Realiza la navegación a la siguiente pantalla

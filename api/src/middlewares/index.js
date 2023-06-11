@@ -1,5 +1,16 @@
 const login = require("./login");
-const registerUser = require("./registerUser");
-const proyect = require("./proyect");
+// const registerUser = require("./registerUser");
+const {
+  getProyectName,
+  getProyect,
+  registerActivities,
+  logout
+} = require("./proyect");
 
-module.exports = { login, registerUser, proyect };
+module.exports = {
+  login,
+  getProyectName,
+  getProyect,
+  registerActivities,
+  logout
+};

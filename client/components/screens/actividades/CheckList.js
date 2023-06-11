@@ -1,68 +1,80 @@
-import React, { useState } from 'react';
-import { View, FlatList, TouchableOpacity, Text, StyleSheet } from 'react-native';
+import React, { useState, useEffect, useContext } from 'react';
+import { View, FlatList, Text, StyleSheet } from 'react-native';
+import { AuthContext } from '../../context/context';
 
+import api from '../../../api/api';
 import Tarea from './tarea';
 
 const Checklist = () => {
-    //? seteamos los valores de items con datos que deberian venir de la base de datos
-  // const [items, setItems] = useState([
-  //   { id: 1, text: 'Tarea 1', checked: false },
-  //   { id: 2, text: 'Tarea 2', checked: true },
-  //   { id: 3, text: 'Tarea 3', checked: false },
-  // ]);
+  const [response, setResponse] = useState([]);
+  const {inputValue} = useContext(AuthContext)
 
-  const toggleCheck = (itemId) => {
-    const updatedItems = items.map((item) =>
-      item.id === itemId ? { ...item, checked: !item.checked } : item
-    );
-    setItems(updatedItems);
-  };
-
-  
-  // const renderItem = ({ item }) => (
-  //   <TouchableOpacity onPress={() => toggleCheck(item.id)}>
-  //     <View style={styles.item}>
-  //       <Text style={item.checked ? styles.checkedText : styles.uncheckedText}>{item.text}</Text>
-  //     </View>
-  //   </TouchableOpacity>
-  // );
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        console.log(inputValue)
+        if(inputValue!==""){
+          const response = await api.get(`/proyect?search=${inputValue}`);
+          setResponse(response?.data);
+        }
+      } catch (error) {
+        console.error(error);
+      }
+    };
+    fetchData();
+  }, [inputValue]);
 
   return (
     <View style={styles.container}>
-      <Text>Fecha - Componente</Text>
-      <Tarea/>
-      {/* <FlatList
-        data={items}
-        renderItem={renderItem}
-        keyExtractor={(item) => item.id.toString()}
-        style={styles.list}
-      /> */}
+      {response?.map((pro,index) => (
+       <View key={index} style={styles.pro}>
+          {pro.componentes.map((compo,index) => (
+            <View key={index} style={styles.compo}>
+              <Text style={styles.compTitle}>{compo.fecha}</Text>
+              <Text style={styles.compTitle}>{compo.componente}</Text>
+              {compo.actividades.map((act,index) => (
+                <View key={index} style={styles.actividad}>
+                  <Tarea actividad={act.actividad} entregable={act.entregable}/>
+                </View>
+                ))}
+            </View>
+          ))}
+        </View>
+      ))}
+      <View style={styles.footer}></View>
     </View>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
-    paddingHorizontal: 15,
-    backgroundColor: "lightgrey",
-    margin: 10,
-    borderRadius: 10
+    marginHorizontal: 10,
+    marginTop:5
   },
-  item: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    paddingVertical: 8,
+  pro: {
+    marginBottom: 10,
+    borderRadius: 5,
+    
+
   },
-  checkedText: {
-    textDecorationLine: 'line-through',
-    color: 'gray',
+  compo: {
+    marginVertical: 2,
+    backgroundColor: 'lightgrey',
+    borderRadius: 10,
+    padding:2
   },
-  uncheckedText: {
-    color: 'black',
+  compTitle: {
+    marginHorizontal: 5
   },
-  list: {
-    marginStart:15
+  actividad: {
+    backgroundColor: "rgba(72, 169, 229, 0.735);", //! dejar este color
+    marginVertical: 5,
+    borderRadius: 3
+  },
+  footer: {
+    marginBottom: 28
   }
 });
 
-export default Checklist
+export default Checklist;
+
