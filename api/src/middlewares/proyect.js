@@ -41,10 +41,16 @@ const LoadProyect = async (Doc_id) => {
       `select* from TBL_ESP_Procesos  where ID = ${ID_parte}`
       // {replacements:{Codigo:}}
     );
+    const entrega = await sequelize.query(
+      `select * from TBL_SER_EntregablesActividad where id_Proceso = ${Cod_parte[0][0].ID}`
+    )
+    const nomEntregable = entrega[0]?.map(nom=>nom.Nombre)
     if (proyect[0][0].TipoParte === "Actividad") {
       actividad = proyect[0][0].Nombre;
       frecuencia = Cod_parte[0][0].FrecuenciaVeces;
       entregable = Cod_parte[0][0].AplicaEntregables;
+      nom_entregable = nomEntregable
+
     }
     do {
       tipoParte = await sequelize.query(
@@ -79,13 +85,14 @@ const LoadProyect = async (Doc_id) => {
             actividad: actividad,
             frecuencia,
             entregable,
+            nombre_entregable: nom_entregable
           });
         } else {
           //? Agregar un nuevo componente con la actividad al proyecto existente
           proyectoExistente.componentes.push({
             fecha,
             componente: componente,
-            actividades: [{ actividad: actividad, frecuencia, entregable }],
+            actividades: [{ actividad: actividad, frecuencia, entregable,nombre_entregable: nom_entregable }],
           });
         }
       } else {
@@ -97,7 +104,7 @@ const LoadProyect = async (Doc_id) => {
               {
                 fecha,
                 componente: componente,
-                actividades: [{ actividad: actividad, frecuencia, entregable }],
+                actividades: [{ actividad: actividad, frecuencia, entregable,nombre_entregable: nom_entregable }],
               },
             ],
           });
