@@ -10,6 +10,6 @@ const {
 ProyectRouter.get("/search", getProyectName);
 ProyectRouter.get("/", getProyect);
 ProyectRouter.get("/logout",logout);
-ProyectRouter.post("/",registerActivities);
+ProyectRouter.post("/hours",registerActivities);
 
 module.exports = ProyectRouter;

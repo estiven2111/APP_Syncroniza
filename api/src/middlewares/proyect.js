@@ -115,12 +115,11 @@ const getProyectName = async (req, res) => {
   const { search } = req.query;
   const proyects = JSON.parse(localStorage.getItem(`Proyecto`));
   // localStorage.removeItem(`Proyecto`)
-  let NomProyect
- 
-    NomProyect = proyects.proyectos
+  let NomProyect;
+
+  NomProyect = proyects.proyectos
     .filter((obj) => obj.proyecto.includes(search.toUpperCase()))
     .map((obj) => obj.proyecto);
- 
 
   if (NomProyect.length <= 0) {
     return res.json("No hay royectos con este nombre ");
@@ -136,56 +135,43 @@ const getProyect = async (req, res) => {
   const { search } = req.query;
   const proyects = JSON.parse(localStorage.getItem(`Proyecto`));
   //? me devuelve todo el objeto
-  let proyect
+  let proyect;
 
-   proyect = proyects.proyectos.filter((obj) => {
+  proyect = proyects.proyectos.filter((obj) => {
     return obj.proyecto.includes(search.toUpperCase());
   });
- 
 
-res.json(proyect);
-  };
+  res.json(proyect);
+};
 
 const registerActivities = async (req, res) => {
-  const { inicio, fin, proyect, component, activity } = req.body;
-  let HTotal
-  //? sumar total de tiempo en horario
-  if (fin < inicio  ) {
-   res.json("la hora final debe ser mayor que la inicial")
-   return
-  }else{
-     HTotal = fin - inicio
-  }
- 
-  
-
-   var fechaActual = new Date();
-  // var fechaActual = new Date().toLocaleString("es-CO", {
-  //   timeZone: "America/Bogota",
-  // });
-   fecha = new Date(fechaActual).toISOString().split("T")[0];
-   
- 
+  const { inicio, fin, HParcial, fecha, proyect, component, activity } =
+    req.body;
   await sequelize.query(
     `INSERT INTO [dbo].[TBL_SER_RegistroActividades]
-    ([Nombre_Proyecto]
-    ,[Nombre_Componente]
-    ,[Nombre_actividad]
-    ,[Fecha]
-    ,[Hora_Inicio]
-    ,[Hora_Fin]
-    ,[Hora_Total])
-VALUES
-    ('${proyect}',
-    '${component}',
-    '${activity}',
-    '${fecha}',
-    ${inicio},
-    ${fin},
-    ${HTotal})
-`
+      ([Nombre_Proyecto]
+      ,[Nombre_Componente]
+      ,[Nombre_actividad]
+      ,[Fecha]
+      ,[Hora_Inicio]
+      ,[Hora_Fin]
+      ,[Hora_Total])
+  VALUES
+      ('${proyect}',
+      '${component}',
+      '${activity}',
+      '${fecha}',
+       ${inicio},
+       ${fin},
+       ${HParcial})
+  `
   );
-  res.json("ok registro");
+  const hours = await sequelize.query(
+    `SELECT SUM(Hora_Total) as horas FROM TBL_SER_RegistroActividades where Nombre_actividad = '${activity}'`
+  );
+
+  TotalH = parseFloat(hours[0][0].horas).toFixed(2);
+  res.json({ horaTotal: TotalH });
 };
 
 const logout = (req, res) => {
