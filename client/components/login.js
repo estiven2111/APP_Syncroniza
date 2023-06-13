@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { View, Text, TextInput, Button, StyleSheet } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useNavigation } from "@react-navigation/native";
+import { Overlay } from "react-native-elements";
 import api from "../api/api";
 
 const Login = () => {
@@ -24,23 +25,33 @@ const Login = () => {
     }, 0);
   }, []);
 
+  const [errorMesage, setErrorMessage] = useState("")
   const handleLogin = async () => {
     try {
       const response = await api.post("/login", { user, password });
+      console.log(response.data)
       await AsyncStorage.multiSet([
         ["name", response.data.userName],
         ["token", response.data.token],
         ["email", response.data.userEmail]
       ]);
+      console.log("hola")
       setPassword("");
-
       // Realiza la navegación a la siguiente pantalla
       navigation.navigate("Home");
     } catch (error) {
-      console.error("Error de inicio de sesión:", error);
-      // Manejo de errores de inicio de sesión
+      if (error.response && error.response.data && error.response.data.message) {
+        setErrorMessage(error.response.data.message)
+        toggleOverlay()
+      }
+
     }
   };
+
+  const [isVisible, setIsVisible] = useState(false);
+    const toggleOverlay = () => {
+      setIsVisible(!isVisible);
+    };
 
   return (
     <View style={styles.container}>
@@ -60,6 +71,9 @@ const Login = () => {
         secureTextEntry
       />
       <Button title="Iniciar sesión" onPress={handleLogin} />
+      <Overlay isVisible={isVisible} onBackdropPress={toggleOverlay} overlayStyle={styles.modal}>
+          <Text style={styles.errorMesage}>{errorMesage}</Text>
+      </Overlay>
     </View>
   );
 };
@@ -81,6 +95,17 @@ const styles = StyleSheet.create({
     margin: 5,
     borderRadius: 6,
   },
+  modal: {
+    width: 250,
+    height: 130,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  errorMesage: {
+    textAlign: "center",
+    fontSize: 16,
+    fontWeight: "bold"
+  }
 });
 
 export default Login;
