@@ -20,9 +20,9 @@ const Entregables = (props) => {
             <View style={styles.modalContainer}>
                 <View style={styles.modalContent}>
                     <Text>Entregables a enviar:</Text>
-                    <TextInput placeholder='Entregable 1'></TextInput>
-                    <TextInput placeholder='Entregable 2'></TextInput>
-                    <TextInput placeholder='Entregable 3'></TextInput>
+                    {props.lista.map(ent => {
+                        return <TextInput placeholder={ent} style={styles.input}></TextInput>
+                    })}
                     <TouchableOpacity onPress={closeModal}>
                         <Text>OK</Text>
                     </TouchableOpacity>
@@ -46,6 +46,14 @@ const styles = StyleSheet.create({
         height: 30,
         borderRadius: 8,
         justifyContent: "center"
+    },
+    input: {
+        backgroundColor: "lightgrey",
+        width: 150,
+        margin: 1,
+        borderRadius: 5,
+        fontSize:11,
+        paddingHorizontal:3
     },
     modalContainer: {
         flex: 1,
