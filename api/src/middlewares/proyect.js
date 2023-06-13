@@ -6,8 +6,8 @@ const localStorage = new LocalStorage("./local-storage");
 const LoadProyect = async (Doc_id) => {
   //? se piden los datos del usuario en el localStorage
   // const user = JSON.parse(localStorage.getItem("user"));
-  console.log(Doc_id);
   //? se selecciona los idNodo para saber que proyectos tiene el usuario
+ try {
   const idnodo = await sequelize.query(
     `SELECT idNodoProyecto FROM TBL_SER_ProyectoActividadesEmpleados where N_DocumentoEmpleado = ${Doc_id} `
   );
@@ -43,14 +43,13 @@ const LoadProyect = async (Doc_id) => {
     );
     const entrega = await sequelize.query(
       `select * from TBL_SER_EntregablesActividad where id_Proceso = ${Cod_parte[0][0].ID}`
-    )
-    const nomEntregable = entrega[0]?.map(nom=>nom.Nombre)
+    );
+    const nomEntregable = entrega[0]?.map((nom) => nom.Nombre);
     if (proyect[0][0].TipoParte === "Actividad") {
       actividad = proyect[0][0].Nombre;
       frecuencia = Cod_parte[0][0].FrecuenciaVeces;
       entregable = Cod_parte[0][0].AplicaEntregables;
-      nom_entregable = nomEntregable
-
+      nom_entregable = nomEntregable;
     }
     do {
       tipoParte = await sequelize.query(
@@ -85,14 +84,21 @@ const LoadProyect = async (Doc_id) => {
             actividad: actividad,
             frecuencia,
             entregable,
-            nombre_entregable: nom_entregable
+            nombre_entregable: nom_entregable,
           });
         } else {
           //? Agregar un nuevo componente con la actividad al proyecto existente
           proyectoExistente.componentes.push({
             fecha,
             componente: componente,
-            actividades: [{ actividad: actividad, frecuencia, entregable,nombre_entregable: nom_entregable }],
+            actividades: [
+              {
+                actividad: actividad,
+                frecuencia,
+                entregable,
+                nombre_entregable: nom_entregable,
+              },
+            ],
           });
         }
       } else {
@@ -104,7 +110,14 @@ const LoadProyect = async (Doc_id) => {
               {
                 fecha,
                 componente: componente,
-                actividades: [{ actividad: actividad, frecuencia, entregable,nombre_entregable: nom_entregable }],
+                actividades: [
+                  {
+                    actividad: actividad,
+                    frecuencia,
+                    entregable,
+                    nombre_entregable: nom_entregable,
+                  },
+                ],
               },
             ],
           });
@@ -115,12 +128,16 @@ const LoadProyect = async (Doc_id) => {
 
   localStorage.setItem(`Proyecto`, JSON.stringify(obj_proyecto));
   //! en el deploy validar que el archivo no se sobreescriba
+ } catch (error) {
+  res.json({ error: error })
+ }
 };
 
 //todo hacer consulta para proyectos enviando respuesta automatica
 const getProyectName = async (req, res) => {
   const { search } = req.query;
-  const proyects = JSON.parse(localStorage.getItem(`Proyecto`));
+  try {
+    const proyects = JSON.parse(localStorage.getItem(`Proyecto`));
   // localStorage.removeItem(`Proyecto`)
   let NomProyect;
 
@@ -135,12 +152,16 @@ const getProyectName = async (req, res) => {
   //   return obj.proyecto.includes(search);
   // });
   res.json(NomProyect);
+  } catch (error) {
+    res.json({ error: error })
+  }
 };
 
 //todo hacer consulta para enviar el proyectos
 const getProyect = async (req, res) => {
   const { search } = req.query;
-  const proyects = JSON.parse(localStorage.getItem(`Proyecto`));
+  try {
+    const proyects = JSON.parse(localStorage.getItem(`Proyecto`));
   //? me devuelve todo el objeto
   let proyect;
 
@@ -149,12 +170,16 @@ const getProyect = async (req, res) => {
   });
 
   res.json(proyect);
+  } catch (error) {
+    res.json({ error: error })
+  }
 };
 
 const registerActivities = async (req, res) => {
   const { inicio, fin, HParcial, fecha, proyect, component, activity } =
     req.body;
-    console.log(req.body)
+  console.log(req.body);
+ try {
   await sequelize.query(
     `INSERT INTO [dbo].[TBL_SER_RegistroActividades]
       ([Nombre_Proyecto]
@@ -180,11 +205,32 @@ const registerActivities = async (req, res) => {
 
   TotalH = parseFloat(hours[0][0].horas).toFixed(2);
   res.json({ horaTotal: TotalH });
+ } catch (error) {
+  res.json({ error: error });
+ }
+};
+
+const hourActivities = async (req, res) => {
+  try {
+    const { activity, proyect } = req.query;
+  console.log(activity, proyect);
+  const hours = await sequelize.query(
+    `SELECT SUM(Hora_Total) as horas FROM TBL_SER_RegistroActividades where Nombre_actividad = '${activity}'AND Nombre_Proyecto = '${proyect}'`
+  );
+  const TotalH = parseFloat(hours[0][0].horas).toFixed(2);
+  res.json(TotalH);
+  } catch (error) {
+    res.json({ error: error });
+  }
 };
 
 const logout = (req, res) => {
+ try {
   localStorage.removeItem(`Proyecto`);
   res.json("Logout seccesfull");
+ } catch (error) {
+  res.json({ error: error });
+ }
 };
 
 //todo debe enviar el arbol del proyecto con componente y actividad y verificar si requiere entregables
@@ -195,5 +241,6 @@ module.exports = {
   getProyect,
   LoadProyect,
   registerActivities,
+  hourActivities,
   logout,
 };
