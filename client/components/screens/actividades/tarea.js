@@ -64,7 +64,7 @@ const Tarea = (props) => {
         checkedColor="black"
       />
       <Time entrega={props.entregable} value={{startTime, endTime}} onChangeStartTime={updateStartTime} onChangeEndTime={updateEndTime} onPress={handleCheckboxToggle} getDuration={getDuration} postInfo={postInfo}/>
-      <Entregables entrega={props.entregable}/>
+      <Entregables entrega={props.entregable} lista={props.listaEntregable}/>
       <Camera entrega={props.entregable}/>
     </View>
   );
