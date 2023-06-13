@@ -43,14 +43,13 @@ const LoadProyect = async (Doc_id) => {
     );
     const entrega = await sequelize.query(
       `select * from TBL_SER_EntregablesActividad where id_Proceso = ${Cod_parte[0][0].ID}`
-    )
-    const nomEntregable = entrega[0]?.map(nom=>nom.Nombre)
+    );
+    const nomEntregable = entrega[0]?.map((nom) => nom.Nombre);
     if (proyect[0][0].TipoParte === "Actividad") {
       actividad = proyect[0][0].Nombre;
       frecuencia = Cod_parte[0][0].FrecuenciaVeces;
       entregable = Cod_parte[0][0].AplicaEntregables;
-      nom_entregable = nomEntregable
-
+      nom_entregable = nomEntregable;
     }
     do {
       tipoParte = await sequelize.query(
@@ -85,14 +84,21 @@ const LoadProyect = async (Doc_id) => {
             actividad: actividad,
             frecuencia,
             entregable,
-            nombre_entregable: nom_entregable
+            nombre_entregable: nom_entregable,
           });
         } else {
           //? Agregar un nuevo componente con la actividad al proyecto existente
           proyectoExistente.componentes.push({
             fecha,
             componente: componente,
-            actividades: [{ actividad: actividad, frecuencia, entregable,nombre_entregable: nom_entregable }],
+            actividades: [
+              {
+                actividad: actividad,
+                frecuencia,
+                entregable,
+                nombre_entregable: nom_entregable,
+              },
+            ],
           });
         }
       } else {
@@ -104,7 +110,14 @@ const LoadProyect = async (Doc_id) => {
               {
                 fecha,
                 componente: componente,
-                actividades: [{ actividad: actividad, frecuencia, entregable,nombre_entregable: nom_entregable }],
+                actividades: [
+                  {
+                    actividad: actividad,
+                    frecuencia,
+                    entregable,
+                    nombre_entregable: nom_entregable,
+                  },
+                ],
               },
             ],
           });
@@ -154,7 +167,7 @@ const getProyect = async (req, res) => {
 const registerActivities = async (req, res) => {
   const { inicio, fin, HParcial, fecha, proyect, component, activity } =
     req.body;
-    console.log(req.body)
+  console.log(req.body);
   await sequelize.query(
     `INSERT INTO [dbo].[TBL_SER_RegistroActividades]
       ([Nombre_Proyecto]
@@ -182,6 +195,17 @@ const registerActivities = async (req, res) => {
   res.json({ horaTotal: TotalH });
 };
 
+const hourActivities = async (req, res) => {
+  const { activity,proyect } = req.query;
+  console.log(activity,proyect)
+  const hours = await sequelize.query(
+    `SELECT SUM(Hora_Total) as horas FROM TBL_SER_RegistroActividades where Nombre_actividad = '${activity}'AND Nombre_Proyecto = '${proyect}'`
+  );
+  const TotalH = parseFloat(hours[0][0].horas).toFixed(2);
+  console.log(TotalH)
+  res.json(TotalH);
+};
+
 const logout = (req, res) => {
   localStorage.removeItem(`Proyecto`);
   res.json("Logout seccesfull");
@@ -195,5 +219,6 @@ module.exports = {
   getProyect,
   LoadProyect,
   registerActivities,
+  hourActivities,
   logout,
 };
