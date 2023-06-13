@@ -4,6 +4,7 @@ const {
   getProyectName,
   getProyect,
   registerActivities,
+  hourActivities,
   logout
 } = require("./proyect");
 
@@ -12,5 +13,6 @@ module.exports = {
   getProyectName,
   getProyect,
   registerActivities,
+  hourActivities,
   logout
 };

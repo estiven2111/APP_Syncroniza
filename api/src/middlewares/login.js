@@ -11,6 +11,10 @@ const login = async (req, res) => {
     `select * from Tbl_USUARIOS where Email = '${user}'`
   );
   try {
+    if (user === "" || password === "") {
+      res.status(401).json({ message: "Completar los campos" });
+      return;
+    }
     let usuario;
     if (existUser[0].length > 0) {
       usuario = existUser[0][0];
