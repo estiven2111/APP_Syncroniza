@@ -34,7 +34,7 @@ const Checklist = () => {
               <Text style={styles.compTitle}>{compo.componente}</Text>
               {compo.actividades.map((act,index) => (
                 <View key={index} style={styles.actividad}>
-                  <Tarea actividad={act.actividad} entregable={act.entregable}/>
+                  <Tarea proyecto={pro.proyecto} componente={compo.componente} actividad={act.actividad} entregable={act.entregable}/>
                 </View>
                 ))}
             </View>

@@ -154,6 +154,7 @@ const getProyect = async (req, res) => {
 const registerActivities = async (req, res) => {
   const { inicio, fin, HParcial, fecha, proyect, component, activity } =
     req.body;
+    console.log(req.body)
   await sequelize.query(
     `INSERT INTO [dbo].[TBL_SER_RegistroActividades]
       ([Nombre_Proyecto]

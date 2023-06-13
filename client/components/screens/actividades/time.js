@@ -1,18 +1,15 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import { View, Text, TouchableOpacity, Modal, StyleSheet } from "react-native";
 import { Overlay } from 'react-native-elements';
+import api from '../../../api/api';
 import { TimeInput } from '../../../utils/inputControl';
 
 
-const Time = ({entrega, value, onChangeStartTime, onChangeEndTime, onPress}) => {
-    // Esto maneja la alerta
-    const [isVisible, setIsVisible] = useState(false);
+const Time = ({entrega, value, onChangeStartTime, onChangeEndTime, onPress, getDuration, postInfo}) => {
+    const [errorModal, setErrorModal] = useState(false);
     const toggleOverlay = () => {
-      setIsVisible(!isVisible);
+      setErrorModal(!errorModal);
     };
-    
-    // const [startTime, setStartTime] = useState("");
-    // const [endTime, setEndTime] = useState("");
 
     const [modalVisible, setModalVisible] = useState(false);
     const openModal = () => {
@@ -20,7 +17,14 @@ const Time = ({entrega, value, onChangeStartTime, onChangeEndTime, onPress}) => 
     };
     const closeModal = () => {
         if ((value.startTime.length===0 || value.startTime.length===5) && (value.endTime.length===0 || value.endTime.length===5)) {
-            onPress(true)
+            if (value.endTime) {
+                onPress(true)
+            } else {
+                onPress(false)
+            }
+            sendInfoDB()
+            onChangeStartTime("")
+            onChangeEndTime("")
             setModalVisible(false);
         } else {
             onPress(false)
@@ -28,44 +32,53 @@ const Time = ({entrega, value, onChangeStartTime, onChangeEndTime, onPress}) => 
         }
     };
 
-    // const updateStartTime = (value) => {
-    //     setStartTime(value);
-    //   };
-    
-    //   const updateEndTime = (value) => {
-    //     setEndTime(value);
-    //   };
-
-    const getDuration = () => {
-        if (value.startTime.length===5 && value.endTime.length===5) {
-            const start = value.startTime.split(":")
-            const startMinutes = (parseInt(start[0])*60) + parseInt(start[1])
-
-            const end = value.endTime.split(":")
-            const endMinutes = (parseInt(end[0])*60 )+ parseInt(end[1])
-            let totalMinutes = 0
-            if (endMinutes >= startMinutes) {
-                totalMinutes = endMinutes - startMinutes
-            } else {
-                totalMinutes = (24*60)+(endMinutes - startMinutes)
-            }
-            const duration = `${Math.floor(totalMinutes/60)<10 ? "0" + Math.floor(totalMinutes/60) : Math.floor(totalMinutes/60)}:${totalMinutes%60<10 ? "0" + totalMinutes%60 : totalMinutes%60}`
-            return duration
-
+    const [date, setDate] = useState("")
+    useEffect(() => {
+        const getDate = () => {
+            const currentDate = new Date()
+            const formatDate = currentDate.toISOString().split("T")[0];
+            setDate(formatDate)
         }
-    }
+        getDate()
+    },[])
+
+    //! necesito una ruta que me devuelva el timepo total lo siguiente es temporal 
+    const [totalTime, setTotalTime] = useState("")
+
+    // useEffect(() => {
+    //     const solicitud = async() => {
+    //         try {
+    //             const response = await api.get("/proyect/hours");
+    //             setTotalTime(response.data.horaTotal)
+    //         } catch (error) {
+    //           console.error("No se envio la informacion correctamente", error);
+    //         }
+    //     }
+    //     solicitud()
+    // }, [])
+    //! hacer un get para q aparezca lleno
+
+    const sendInfoDB = async () => {
+        try {
+            const response = await api.post("/proyect/hours", { ...postInfo, fecha: date });
+            console.log(response.data)
+            setTotalTime(response.data.horaTotal)
+        } catch (error) {
+          console.error("No se envio la informacion correctamente", error);
+        }
+      };
 
 
-
+    
     return (
         <View>
         <TouchableOpacity  style={entrega?styles.button:styles.disable} onPress={openModal}>
-            <Text>{getDuration()?getDuration():"Tiempo"}</Text>
+            <Text>{totalTime?totalTime:"Tiempo"}</Text>
         </TouchableOpacity>
         <Modal animationType= "fade" visible={modalVisible} onRequestClose={closeModal} transparent={true}>
             <View style={styles.modalContainer}>
                 <View style={styles.modalContent}>
-                    <Text>Fecha: fx()</Text>
+                    <Text>{date}</Text>
                     <View style={styles.hour}>
                         <Text>Hora inicio:</Text>
                         <TimeInput value={value.startTime} onChange={onChangeStartTime}/>
@@ -75,11 +88,12 @@ const Time = ({entrega, value, onChangeStartTime, onChangeEndTime, onPress}) => 
                         <TimeInput value={value.endTime} onChange={onChangeEndTime}/>
                     </View>
                     <Text>Duracion: {getDuration()}</Text>
+                    <Text>Tiempo Total: {totalTime}</Text>
                     <TouchableOpacity onPress={closeModal}>
                         <Text>OK</Text>
                     </TouchableOpacity>
-                    <Overlay isVisible={isVisible} onBackdropPress={toggleOverlay}>
-                        <Text>Formato no valido</Text>
+                    <Overlay isVisible={errorModal} onBackdropPress={toggleOverlay} overlayStyle={styles.modal}>
+                        <Text style={styles.errorMesage}>Formato no válido</Text>
                     </Overlay>
                 </View>
             </View>
@@ -121,7 +135,18 @@ const styles = StyleSheet.create({
     hour: {
         flexDirection: "row",
         padding: 5
-    }
+    },
+    modal: {
+        width: 250,
+        height: 130,
+        justifyContent: "center",
+        alignItems: "center",
+      },
+      errorMesage: {
+        textAlign: "center",
+        fontSize: 16,
+        fontWeight: "bold"
+      }
 });
 
 export default Time
