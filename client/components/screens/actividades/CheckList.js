@@ -12,7 +12,6 @@ const Checklist = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        console.log(inputValue)
         if(inputValue!==""){
           const response = await api.get(`/proyect?search=${inputValue}`);
           setResponse(response?.data);
@@ -32,11 +31,9 @@ const Checklist = () => {
             <View key={index} style={styles.compo}>
               <Text style={styles.compTitle}>{compo.fecha}</Text>
               <Text style={styles.compTitle}>{compo.componente}</Text>
-              {compo.actividades.map((act,index) => (
-                <View key={index} style={styles.actividad}>
+              {compo.actividades.map((act,ind) => (
+                <View key={ind} style={styles.actividad}>
                   <Tarea proyecto={pro.proyecto} componente={compo.componente} actividad={act.actividad} entregable={act.entregable} listaEntregable={act.nombre_entregable}/>
-                  {console.log(pro.proyecto)}
-                  {console.log(act.nombre_entregable)}
                 </View>
                 ))}
             </View>
