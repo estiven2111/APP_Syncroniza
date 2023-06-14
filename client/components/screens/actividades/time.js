@@ -58,8 +58,6 @@ const Time = ({
   useEffect(() => {
     const solicitud = async () => {
       try {
-        console.log("vamos entrando")
-        console.log(postInfo.proyect,"qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq")
         const response = await api.get(`/proyect/hours?activity=${postInfo.activity}&proyect=${postInfo.proyect}`);
         console.log(response.data)
         
