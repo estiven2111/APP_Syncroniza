@@ -29,13 +29,11 @@ const Login = () => {
   const handleLogin = async () => {
     try {
       const response = await api.post("/login", { user, password });
-      console.log(response.data)
       await AsyncStorage.multiSet([
         ["name", response.data.userName],
         ["token", response.data.token],
         ["email", response.data.userEmail]
       ]);
-      console.log("hola")
       setPassword("");
       // Realiza la navegación a la siguiente pantalla
       navigation.navigate("Home");

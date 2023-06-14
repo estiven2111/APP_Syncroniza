@@ -1,16 +1,18 @@
 import React, {useState} from 'react';
 import { View, Text, TextInput, TouchableOpacity, Modal, StyleSheet } from "react-native";
+import FilePickerButton from './filePicker';
 
 const Entregables = (props) => {
-    const [modalVisible, setModalVisible] = useState(false);
 
+    const [modalVisible, setModalVisible] = useState(false);
     const openModal = () => {
       setModalVisible(true);
     };
-  
     const closeModal = () => {
       setModalVisible(false);
     };
+
+
     return (
         <View>
         <TouchableOpacity style={props.entrega?styles.button:styles.disable} disabled={props.entrega?false:true} onPress={openModal}>
@@ -19,14 +21,11 @@ const Entregables = (props) => {
         <Modal animationType= "fade" visible={modalVisible} onRequestClose={closeModal} transparent={true}>
             <View style={styles.modalContainer}>
                 <View style={styles.modalContent}>
-                    <Text>Entregables a enviar:</Text>
+                    <Text>ENTREGABLES A ENVIAR:</Text>
                     {props.lista.map((ent, index) => {
                         return( 
-                        <View style={styles.entregables}>
-                            <Text style={styles.input} key={index}>{ent}</Text>
-                            <TouchableOpacity style={styles.selectCont}>
-                                <Text style={styles.select} key={index}>...</Text>
-                            </TouchableOpacity>
+                        <View style={styles.entregables} key={index}>
+                            <FilePickerButton ent={ent}/>
                         </View> )
                     })}
                     <TouchableOpacity onPress={closeModal}>
@@ -56,6 +55,14 @@ const styles = StyleSheet.create({
     entregables : {
         flexDirection: "row",
     },
+    charged: {
+        backgroundColor: "green",
+        width: 150,
+        margin: 1,
+        borderRadius: 5,
+        fontSize:11,
+        paddingHorizontal:3
+    },
     input: {
         backgroundColor: "lightgrey",
         width: 150,
@@ -63,16 +70,6 @@ const styles = StyleSheet.create({
         borderRadius: 5,
         fontSize:11,
         paddingHorizontal:3
-    },
-    selectCont: {
-        width: 20,
-        borderRadius: 5,
-        margin: 1,
-        backgroundColor: "lightgrey"
-    },
-    select: {
-        width: 20,
-        textAlign: "center"
     },
     modalContainer: {
         flex: 1,
@@ -84,7 +81,8 @@ const styles = StyleSheet.create({
         backgroundColor: 'white',
         justifyContent: "center",
         alignItems: "center",
-        width: 200,
+        width: 300,
+        height:250,
         padding: 10,
         borderRadius: 10,
     },
