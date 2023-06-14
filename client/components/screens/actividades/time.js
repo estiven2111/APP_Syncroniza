@@ -24,10 +24,10 @@ const Time = ({
     setModalVisible(true);
   };
   const closeModal = () => {
-    if (
-      (value.startTime.length === 0 || value.startTime.length === 5) &&
-      (value.endTime.length === 0 || value.endTime.length === 5)
-    ) {
+    if (value.startTime.length === 0 && value.endTime.length === 0) {
+      return setModalVisible(false);
+    }
+    if (value.startTime.length === 5 && value.endTime.length === 5) {
       if (value.endTime) {
         onPress(true);
       } else {
@@ -53,13 +53,13 @@ const Time = ({
     getDate();
   }, []);
 
-  //! necesito una ruta que me devuelva el timepo total lo siguiente es temporal
   const [totalTime, setTotalTime] = useState("");
 
   useEffect(() => {
     const solicitud = async () => {
       try {
-        console.log(postInfo.proyect)
+        console.log("vamos entrando")
+        console.log(postInfo.proyect,"qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq")
         const response = await api.get(`/proyect/hours?activity=${postInfo.activity}&proyect=${postInfo.proyect}`);
         console.log(response.data)
         
