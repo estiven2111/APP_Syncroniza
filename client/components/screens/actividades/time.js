@@ -6,14 +6,37 @@ import { TimeInput } from "../../../utils/inputControl";
 
 const Time = ({
   entrega,
-  value,
-  onChangeStartTime,
-  onChangeEndTime,
-  onPress,
-  getDuration,
-  postInfo,
-  activity,
+  postInfo
 }) => {
+  const [startTime, setStartTime] = useState("");
+  const [endTime, setEndTime] = useState("");
+  const updateStartTime = (value) => {
+    setStartTime(value);
+  };
+  const updateEndTime = (value) => {
+    setEndTime(value);
+  };
+
+  const getDuration = () => {
+    if (startTime.length===5 && endTime.length===5) {
+        const start = startTime.split(":")
+        const startMinutes = (parseInt(start[0])*60) + parseInt(start[1])
+
+        const end = endTime.split(":")
+        const endMinutes = (parseInt(end[0])*60 )+ parseInt(end[1])
+        let totalMinutes = 0
+        if (endMinutes >= startMinutes) {
+            totalMinutes = endMinutes - startMinutes
+        } else {
+            totalMinutes = (24*60)+(endMinutes - startMinutes)
+        }
+        const duration = `${Math.floor(totalMinutes/60)<10 ? "0" + Math.floor(totalMinutes/60) : Math.floor(totalMinutes/60)}:${totalMinutes%60<10 ? "0" + totalMinutes%60 : totalMinutes%60}`
+        return duration
+    } else {
+      return ""
+    }
+  }
+
   const [errorModal, setErrorModal] = useState(false);
   const toggleOverlay = () => {
     setErrorModal(!errorModal);
@@ -24,21 +47,16 @@ const Time = ({
     setModalVisible(true);
   };
   const closeModal = () => {
-    if (value.startTime.length === 0 && value.endTime.length === 0) {
+    if (startTime.length === 0 && endTime.length === 0) {
       return setModalVisible(false);
     }
-    if (value.startTime.length === 5 && value.endTime.length === 5) {
-      if (value.endTime) {
-        onPress(true);
-      } else {
-        onPress(false);
-      }
+    if (startTime.length === 5 && endTime.length === 5) {
+
       sendInfoDB();
-      onChangeStartTime("");
-      onChangeEndTime("");
+      updateStartTime("");
+      updateEndTime("");
       setModalVisible(false);
     } else {
-      onPress(false);
       toggleOverlay();
     }
   };
@@ -59,7 +77,6 @@ const Time = ({
     const solicitud = async () => {
       try {
         const response = await api.get(`/proyect/hours?activity=${postInfo.activity}&proyect=${postInfo.proyect}`);
-        console.log(response.data)
         
        setTotalTime(response.data)
       } catch (error) {
@@ -67,16 +84,19 @@ const Time = ({
       }
     };
     solicitud();
-  }, [activity]);
+  }, [postInfo.activity, postInfo.proyect]);
   //! hacer un get para q aparezca lleno
+  
 
   const sendInfoDB = async () => {
     try {
       const response = await api.post("/proyect/hours", {
         ...postInfo,
         fecha: date,
+        inicio : startTime.split(":").join("."),
+        fin : endTime.split(":").join("."),
+        HParcial : getDuration().split(":").join(".")
       });
-      console.log(response.data);
       setTotalTime(response.data.horaTotal);
     } catch (error) {
       console.error("No se envio la informacion correctamente", error);
@@ -102,11 +122,11 @@ const Time = ({
             <Text>{date}</Text>
             <View style={styles.hour}>
               <Text>Hora inicio:</Text>
-              <TimeInput value={value.startTime} onChange={onChangeStartTime} />
+              <TimeInput value={startTime} onChange={updateStartTime} />
             </View>
             <View style={styles.hour}>
               <Text>Hora final:</Text>
-              <TimeInput value={value.endTime} onChange={onChangeEndTime} />
+              <TimeInput value={endTime} onChange={updateEndTime} />
             </View>
             <Text>Duracion: {getDuration() !== "" ?getDuration(): "00:00"}</Text>
             <Text>Tiempo Total: {!isNaN(totalTime) ? totalTime : "00:00"}</Text>
