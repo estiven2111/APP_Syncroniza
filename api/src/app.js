@@ -5,6 +5,7 @@ const router = require("./routes/index")
 // require("dotenv").config()
 const app = express();
 app.use(cors());
+app.use(express.json());
 app.use(bodyParser.json());
 
 app.use("/", router)
