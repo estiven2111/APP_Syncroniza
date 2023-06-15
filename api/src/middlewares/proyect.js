@@ -178,7 +178,6 @@ const getProyect = async (req, res) => {
 const registerActivities = async (req, res) => {
   const { inicio, fin, HParcial, fecha, proyect, component, activity } =
     req.body;
-  console.log(req.body);
  try {
   await sequelize.query(
     `INSERT INTO [dbo].[TBL_SER_RegistroActividades]
@@ -213,7 +212,6 @@ const registerActivities = async (req, res) => {
 const hourActivities = async (req, res) => {
   try {
     const { activity, proyect } = req.query;
-  console.log(activity, proyect);
   const hours = await sequelize.query(
     `SELECT SUM(Hora_Total) as horas FROM TBL_SER_RegistroActividades where Nombre_actividad = '${activity}'AND Nombre_Proyecto = '${proyect}'`
   );

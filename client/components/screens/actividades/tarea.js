@@ -1,59 +1,25 @@
-import React, { useEffect, useState } from "react";
-import { View, Text, StyleSheet } from "react-native";
+import React, { useState } from "react";
+import { View, Text, StyleSheet, Modal, TouchableOpacity } from "react-native";
 import { CheckBox } from "react-native-elements";
 import Time from "./time";
 import Entregables from "./entregables";
 import Camera from "./camera";
-import { color } from "react-native-elements/dist/helpers";
 
 const Tarea = (props) => {
   const [checked, setChecked] = useState(false);
+  const [confirmModal, setConfirmModal] = useState(false)
   
-  const handleCheckboxToggle = (condition) => {
-    setChecked(condition);
-  };
-  
-  const [startTime, setStartTime] = useState("");
-  const [endTime, setEndTime] = useState("");
-  const updateStartTime = (value) => {
-    setStartTime(value);
-  };
-  const updateEndTime = (value) => {
-    setEndTime(value);
+  const handleCheckboxToggle = () => {
+    //! faltaria definir una funcion de determine que se va a hacer cuando el check se marque
+    setConfirmModal(true)
   };
 
-  const getDuration = () => {
-    if (startTime.length===5 && endTime.length===5) {
-        const start = startTime.split(":")
-        const startMinutes = (parseInt(start[0])*60) + parseInt(start[1])
-
-        const end = endTime.split(":")
-        const endMinutes = (parseInt(end[0])*60 )+ parseInt(end[1])
-        let totalMinutes = 0
-        if (endMinutes >= startMinutes) {
-            totalMinutes = endMinutes - startMinutes
-        } else {
-            totalMinutes = (24*60)+(endMinutes - startMinutes)
-        }
-        const duration = `${Math.floor(totalMinutes/60)<10 ? "0" + Math.floor(totalMinutes/60) : Math.floor(totalMinutes/60)}:${totalMinutes%60<10 ? "0" + totalMinutes%60 : totalMinutes%60}`
-        return duration
-    } else {
-      return ""
-    }
+  const postInfo =
+  {
+    proyect : props.proyecto,
+    component : props.componente,
+    activity : props.actividad,
   }
-
-    const postInfo =
-    {
-      proyect : props.proyecto,
-      component : props.componente,
-      activity : props.actividad,
-      inicio : startTime.split(":").join("."),
-      fin : endTime.split(":").join("."),
-      HParcial : getDuration().split(":").join(".")
-    }
-  
-
-
 
   return (
     <View style={styles.container}>
@@ -62,9 +28,26 @@ const Tarea = (props) => {
         checked={checked}
         containerStyle={styles.checkBoxContainer}
         checkedColor="black"
+        onPress={handleCheckboxToggle}
       />
-      <Time entrega={props.entregable} activity={props.actividad} value={{startTime, endTime}} onChangeStartTime={updateStartTime} onChangeEndTime={updateEndTime} onPress={handleCheckboxToggle} getDuration={getDuration} postInfo={postInfo}/>
-      <Entregables entrega={props.entregable}/>
+      <Modal visible={confirmModal} transparent={true} >
+        <View style={styles.modalContainer}>
+          <View style={styles.modalContent}>
+            <Text style={styles.text}>Después de aceptar no podrá editar la tarea</Text>
+            <View style={styles.botones}>
+              <TouchableOpacity style={styles.boton} onPress={()=>{setConfirmModal(false); setChecked(true)}}>
+                <Text>Confirmar</Text>
+              </TouchableOpacity>
+              <TouchableOpacity style={styles.boton} onPress={()=>{setConfirmModal(false)}}>
+                <Text>Cancelar</Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+        </View>
+      </Modal>
+
+      <Time entrega={props.entregable} onPress={handleCheckboxToggle} postInfo={postInfo}/>
+      <Entregables entrega={props.entregable} lista={props.listaEntregable}/>
       <Camera entrega={props.entregable}/>
     </View>
   );
@@ -84,6 +67,37 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     paddingLeft: 15,
     paddingRight: 8,
+  },
+  modalContainer: {
+    flex:1,
+    alignItems: "center",
+    justifyContent: "center",
+    backgroundColor: "rgba(0, 0, 0, 0.5)",
+  },
+  modalContent: {
+    width: 270,
+    height: 150,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "white",
+    borderRadius: 10,
+    padding: 20
+  },
+  text: {
+    textAlign: "center",
+    fontSize: 20
+  },
+  botones: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    width: 190,
+    margin: 20
+  },
+  boton: {
+    backgroundColor: "lightgrey",
+    padding: 8,
+    borderRadius: 7,
+
   },
   checkBoxContainer: {
     padding: 0,
