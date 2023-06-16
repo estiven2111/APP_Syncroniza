@@ -8,7 +8,6 @@ const FilePickerButton = ({ent}) => {
     const handleFilePick = async () => {
       try {
         const file = await DocumentPicker.getDocumentAsync();
-        console.log(file.uri);
         if (file.uri) setFileCharged(true)
       } catch (error) {
           console.log('Selección de archivo cancelada', error);
@@ -18,9 +17,15 @@ const FilePickerButton = ({ent}) => {
     return (
       <View style={styles.container}>
         <Text style={fileCharged?styles.charged:styles.input}>{ent}</Text>
-        <TouchableOpacity onPress={handleFilePick} style={styles.selectCont}>
+        {fileCharged
+        ?<TouchableOpacity onPress={() => setFileCharged(false)} style={styles.selectCont}>
+          <Text style={styles.select}>X</Text>
+        </TouchableOpacity>
+        :<TouchableOpacity onPress={handleFilePick} style={styles.selectCont}>
           <Text style={styles.select}>...</Text>
         </TouchableOpacity>
+      }
+        
       </View>
     );
   };
@@ -61,7 +66,8 @@ const FilePickerButton = ({ent}) => {
         borderRadius: 5,
         margin: 1,
         backgroundColor: "lightgrey",
-        alignItems: "center"
+        alignItems: "center",
+        justifyContent: "center"
     },
     select: {
         width: 20,
