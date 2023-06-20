@@ -8,6 +8,12 @@ import Camera from "./camera";
 const Tarea = (props) => {
   const [checked, setChecked] = useState(false);
   const [confirmModal, setConfirmModal] = useState(false)
+  const [isTotalTime, setIsTotalTime] = useState("")
+
+  const handleTotalTime = (value) => {
+    setIsTotalTime(value)
+  }
+  console.log(isTotalTime, " donde estaaaaaaaaaaaaaaaas??")
   
   const handleCheckboxToggle = () => {
     //! faltaria definir una funcion de determine que se va a hacer cuando el check se marque
@@ -28,7 +34,11 @@ const Tarea = (props) => {
         checked={checked}
         containerStyle={styles.checkBoxContainer}
         checkedColor="black"
-        onPress={handleCheckboxToggle}
+        onPress={() => {
+          if (!isNaN(isTotalTime)) {
+            handleCheckboxToggle();
+          }
+        }}
       />
       <Modal visible={confirmModal} transparent={true} >
         <View style={styles.modalContainer}>
@@ -46,7 +56,7 @@ const Tarea = (props) => {
         </View>
       </Modal>
 
-      <Time entrega={props.entregable} onPress={handleCheckboxToggle} postInfo={postInfo}/>
+      <Time entrega={props.entregable} postInfo={postInfo} isTime={handleTotalTime} setChecked={setChecked}/>
       <Entregables entrega={props.entregable} lista={props.listaEntregable}/>
       <Camera entrega={props.entregable}/>
     </View>
