@@ -1,13 +1,11 @@
 import React, { useState, useEffect } from "react";
-import { View, Text, TouchableOpacity, Modal, StyleSheet } from "react-native";
+import { View, Text, TextInput, TouchableOpacity, Modal, StyleSheet } from "react-native";
 import { Overlay } from "react-native-elements";
+import Icon from 'react-native-vector-icons/FontAwesome';
 import api from "../../../api/api";
 import { TimeInput } from "../../../utils/inputControl";
 
-const Time = ({
-  entrega,
-  postInfo
-}) => {
+const Time = ({ entrega, postInfo, isTime, setChecked}) => {
   const [startTime, setStartTime] = useState("");
   const [endTime, setEndTime] = useState("");
   const updateStartTime = (value) => {
@@ -15,6 +13,12 @@ const Time = ({
   };
   const updateEndTime = (value) => {
     setEndTime(value);
+  };
+  const [manualDuration, setManualDuration] = useState(false);
+  const [newDuration, setNewDuration] = useState("");
+  const [editedTime, setEditedTime] = useState(false)
+  const handleNewDuration = (value) => {
+    setNewDuration(value);
   };
 
   const getDuration = () => {
@@ -48,10 +52,18 @@ const Time = ({
   };
   const closeModal = () => {
     if (startTime.length === 0 && endTime.length === 0) {
-      return setModalVisible(false);
+      if (editedTime) {
+        sendInfoDB()
+        setNewDuration("")
+        setModalVisible(false)
+        setEditedTime(false)
+        return
+      } else {
+
+        return setModalVisible(false);
+      }
     }
     if (startTime.length === 5 && endTime.length === 5) {
-
       sendInfoDB();
       updateStartTime("");
       updateEndTime("");
@@ -78,24 +90,26 @@ const Time = ({
       try {
         const response = await api.get(`/proyect/hours?activity=${postInfo.activity}&proyect=${postInfo.proyect}`);
         
-       setTotalTime(response.data)
+        setTotalTime(response.data)
+        console.log(response.data,"aquiiiiiiiiii")
+        setChecked(false)
+        isTime(response.data)
       } catch (error) {
         console.error("No se envio la informacion correctamente", error);
       }
     };
     solicitud();
   }, [postInfo.activity, postInfo.proyect]);
-  //! hacer un get para q aparezca lleno
-  
+
 
   const sendInfoDB = async () => {
     try {
       const response = await api.post("/proyect/hours", {
         ...postInfo,
         fecha: date,
-        inicio : startTime.split(":").join("."),
-        fin : endTime.split(":").join("."),
-        HParcial : getDuration().split(":").join(".")
+        inicio : startTime?startTime.split(":").join("."):"00.00",
+        fin : endTime?endTime.split(":").join("."):"00.00",
+        HParcial : editedTime?newDuration.split(":").join("."):getDuration().split(":").join(".")
       });
       setTotalTime(response.data.horaTotal);
     } catch (error) {
@@ -103,13 +117,21 @@ const Time = ({
     }
   };
 
+
+  const handleCheckboxToggle = () => {
+    //! faltaria definir una funcion de determine que se va a hacer cuando el check se marque
+    setConfirmModal(true)
+  };
+
+  
+
   return (
     <View>
       <TouchableOpacity
         style={entrega ? styles.button : styles.disable}
         onPress={openModal}
       >
-        <Text>{!isNaN(totalTime) ? totalTime : "Tiempo"}</Text>
+        <Text>{!isNaN(totalTime) ? totalTime : "00:00"}</Text>
       </TouchableOpacity>
       <Modal
         animationType="fade"
@@ -128,7 +150,29 @@ const Time = ({
               <Text>Hora final:</Text>
               <TimeInput value={endTime} onChange={updateEndTime} />
             </View>
-            <Text>Duracion: {getDuration() !== "" ?getDuration(): "00:00"}</Text>
+            {manualDuration
+              ?
+              <View style={styles.duration}>
+              <Text>Duracion:</Text>
+                <TextInput style={styles.manualDuration} value={newDuration} onChangeText={handleNewDuration}></TextInput>
+                <TouchableOpacity onPress={()=>{setEditedTime(true); setManualDuration(false)}}>
+                  <Icon name="check" size={15} color="#000"/>
+                </TouchableOpacity>
+              </View>
+              :
+              <View style={styles.duration}>
+              <Text>Duracion:</Text>
+              {editedTime
+              ?
+              <Text style={styles.textDuration}>{newDuration}</Text>
+              :
+              <Text style={styles.textDuration}>{getDuration() !== "" ?getDuration(): "00:00"}</Text>
+              }
+              <TouchableOpacity onPress={()=>setManualDuration(true)}>
+                <Icon name="pencil" size={15} color="#000"/>
+              </TouchableOpacity>
+            </View>
+            }
             <Text>Tiempo Total: {!isNaN(totalTime) ? totalTime : "00:00"}</Text>
             <TouchableOpacity onPress={closeModal}>
               <Text>OK</Text>
@@ -163,6 +207,21 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     justifyContent: "center",
   },
+  duration: {
+    flexDirection: "row"
+  },
+  manualDuration: {
+    width:70,
+    marginHorizontal: 5,
+    backgroundColor: "lightgrey",
+    borderRadius: 5
+  },
+  textDuration: {
+    width:70,
+    marginHorizontal: 5,
+    borderRadius: 5,
+    textAlign: "center"
+  },
   modalContainer: {
     flex: 1,
     justifyContent: "center",
@@ -180,6 +239,8 @@ const styles = StyleSheet.create({
   hour: {
     flexDirection: "row",
     padding: 5,
+    justifyContent: "space-between",
+    width: 190
   },
   modal: {
     width: 250,
