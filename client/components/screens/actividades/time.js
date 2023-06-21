@@ -5,7 +5,7 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import api from "../../../api/api";
 import { TimeInput } from "../../../utils/inputControl";
 
-const Time = ({ entrega, postInfo}) => {
+const Time = ({ entrega, postInfo, isTime, setChecked}) => {
   const [startTime, setStartTime] = useState("");
   const [endTime, setEndTime] = useState("");
   const updateStartTime = (value) => {
@@ -56,7 +56,7 @@ const Time = ({ entrega, postInfo}) => {
         sendInfoDB()
         setNewDuration("")
         setModalVisible(false)
-        editedTime(false)
+        setEditedTime(false)
         return
       } else {
 
@@ -91,6 +91,9 @@ const Time = ({ entrega, postInfo}) => {
         const response = await api.get(`/proyect/hours?activity=${postInfo.activity}&proyect=${postInfo.proyect}`);
         
         setTotalTime(response.data)
+        console.log(response.data,"aquiiiiiiiiii")
+        setChecked(false)
+        isTime(response.data)
       } catch (error) {
         console.error("No se envio la informacion correctamente", error);
       }
@@ -128,7 +131,7 @@ const Time = ({ entrega, postInfo}) => {
         style={entrega ? styles.button : styles.disable}
         onPress={openModal}
       >
-        <Text>{!isNaN(totalTime) ? totalTime : "Tiempo"}</Text>
+        <Text>{!isNaN(totalTime) ? totalTime : "00:00"}</Text>
       </TouchableOpacity>
       <Modal
         animationType="fade"
