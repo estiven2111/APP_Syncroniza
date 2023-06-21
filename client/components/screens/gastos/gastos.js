@@ -2,6 +2,8 @@ import React from 'react';
 import { ScrollView, View, Text, TextInput, TouchableOpacity, StyleSheet } from 'react-native';
 import Constants from "expo-constants";
 import SearchBar from '../../searchBar';
+import ImagePickerComponent from './imagePicker';
+import callGoogleVisionAsync from './helperFunction';
 
 const Gastos = () => {
     return (
@@ -13,7 +15,7 @@ const Gastos = () => {
                     <TextInput style={styles.input} placeholder='$000.000.000.00'/>
                 </View>
                 <TouchableOpacity style={styles.scan}>
-                    <Text>Escanear documento...</Text>
+                    <ImagePickerComponent onSubmit={callGoogleVisionAsync}/>
                 </TouchableOpacity>
                 <TextInput style={styles.input} placeholder='*Concepto'/>
                 <View style={styles.inputCont}>
