@@ -31,6 +31,6 @@ async function callGoogleVisionAsync(image) {
       body: JSON.stringify(body),
     });
     const result = await response.json();
-    console.log(result);
+    console.log(result.responses);
   }
   export default callGoogleVisionAsync;
