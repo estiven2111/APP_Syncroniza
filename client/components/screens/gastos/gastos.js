@@ -1,11 +1,40 @@
-import React from 'react';
-import { ScrollView, View, Text, TextInput, TouchableOpacity, StyleSheet } from 'react-native';
+import React, {useState, useEffect} from 'react';
+import { ScrollView, View, Text, TextInput, TouchableOpacity, StyleSheet, Modal, Dimensions, Image } from 'react-native';
 import Constants from "expo-constants";
 import SearchBar from '../../searchBar';
 import ImagePickerComponent from './imagePicker';
 import callGoogleVisionAsync from './helperFunction';
+import UseCameraOCR from '../../../utils/useCamOCR';
+import Camera from '../actividades/camera';
 
 const Gastos = () => {
+    const [openCamera, setOpenCamera] = useState(false);
+    const openCam = () => {
+        setOpenCamera(true);
+    };
+    const closeCam = () => {
+      setOpenCamera(false);
+    };
+
+    const [toScan, setToScan] = useState("")
+    const newPhoto = (value) => {
+        setToScan(value)
+        console.log("llego", toScan)
+    }
+useEffect(()=> {
+
+}, [toScan])
+
+const handlerScan = () => {
+    console.log("vamos bien!!")
+}
+
+const mentira = {
+    concepto: "almuerzo",
+    nombre: "estiven",
+    valor: "2000"
+}
+
     return (
         <View style={styles.container}>
             <SearchBar/>
@@ -14,16 +43,27 @@ const Gastos = () => {
                     <TextInput style={styles.input} placeholder='*Buscar anticipo'/>
                     <TextInput style={styles.input} placeholder='$000.000.000.00'/>
                 </View>
-                <TouchableOpacity style={styles.scan}>
-                    <ImagePickerComponent onSubmit={callGoogleVisionAsync}/>
+                <View style={styles.scan}>
+                {toScan?<Image source={{uri: toScan}} style={styles.photo}/>:null}
+                <TouchableOpacity style={styles.button} onPress={toScan?handlerScan:openCam}>
+                    <Text>{toScan?"Escanear":"abrir camara"}</Text>
                 </TouchableOpacity>
-                <TextInput style={styles.input} placeholder='*Concepto'/>
+                <Modal visible={openCamera} onRequestClose={closeCam} transparent={true}>
+                    <View style={styles.modalContainer}>
+                        <UseCameraOCR setToScan={newPhoto} closeCam={closeCam}/>
+                        <TouchableOpacity onPress={closeCam}>
+                            <Text>OK</Text>
+                        </TouchableOpacity>
+                    </View>
+                </Modal>
+                </View>
+                <TextInput style={styles.input} placeholder='*Concepto' value={toScan?mentira.concepto:""}/>
                 <View style={styles.inputCont}>
                     <TextInput style={styles.input} placeholder='*NIT/CC'/>
-                    <TextInput style={styles.input} placeholder='*Nombre'/>
+                    <TextInput style={styles.input} placeholder='*Nombre' value={toScan?mentira.nombre:""}/>
                 </View>
                 <View style={styles.inputCont}>
-                    <TextInput style={styles.input} placeholder='*Valor pagado $...'/>
+                    <TextInput style={styles.input} placeholder='*Valor pagado $...' value={toScan?mentira.valor:""}/>
                     <TextInput style={styles.input} placeholder='Valor IVA $...'/>
                 </View>
                 <View style={styles.inputCont}>
@@ -53,12 +93,19 @@ const styles = StyleSheet.create({
         padding: 5,
         flexDirection: "row"
     },
+    button: {
+        backgroundColor: 'white',
+        padding: 5,
+        height: 30,
+        borderRadius: 8,
+        justifyContent: 'center',
+      },
     scan: {
-        backgroundColor: "lightblue",
+        backgroundColor: "pink",
         paddingHorizontal: 10,
         marginVertical: 5,
         marginHorizontal: 20,
-        height:100 ,
+        height:135 ,
         borderRadius: 4,
         justifyContent: "center"
     },
@@ -70,8 +117,18 @@ const styles = StyleSheet.create({
       flex: 1
     },
     footer: {
-        
       marginBottom: 40
-    }
+    },
+    modalContainer: {
+      // flex: 1,
+      height: Dimensions.get('window').height,
+      justifyContent: 'center',
+      alignItems: 'center',
+      backgroundColor: 'rgba(0, 0, 0, 0.5)', // Fondo semitransparente para el modal
+  },
+  photo: {
+    // width: "100%",
+    height: 100
+}
   });
 export default Gastos 
