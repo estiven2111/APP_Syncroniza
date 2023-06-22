@@ -91,17 +91,17 @@ const Time = ({ entrega, postInfo, isTime, setChecked}) => {
         const response = await api.get(`/proyect/hours?activity=${postInfo.activity}&proyect=${postInfo.proyect}`);
         
         setTotalTime(response.data)
+        isTime(response.data)
         console.log(response.data,"aquiiiiiiiiii")
         setChecked(false)
-        isTime(response.data)
       } catch (error) {
         console.error("No se envio la informacion correctamente", error);
       }
     };
     solicitud();
   }, [postInfo.activity, postInfo.proyect]);
-
-
+  
+  
   const sendInfoDB = async () => {
     try {
       const response = await api.post("/proyect/hours", {
@@ -111,6 +111,7 @@ const Time = ({ entrega, postInfo, isTime, setChecked}) => {
         fin : endTime?endTime.split(":").join("."):"00.00",
         HParcial : editedTime?newDuration.split(":").join("."):getDuration().split(":").join(".")
       });
+      isTime(response.data.horaTotal)
       setTotalTime(response.data.horaTotal);
     } catch (error) {
       console.error("No se envio la informacion correctamente", error);

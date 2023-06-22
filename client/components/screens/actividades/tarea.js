@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { View, Text, StyleSheet, Modal, TouchableOpacity } from "react-native";
 import { CheckBox } from "react-native-elements";
 import Time from "./time";
@@ -9,16 +9,25 @@ const Tarea = (props) => {
   const [checked, setChecked] = useState(false);
   const [confirmModal, setConfirmModal] = useState(false)
   const [isTotalTime, setIsTotalTime] = useState("")
+  const [finished, setFinished] = useState (false)
 
-  const handleTotalTime = (value) => {
-    setIsTotalTime(value)
-  }
   console.log(isTotalTime, " donde estaaaaaaaaaaaaaaaas??")
+  useEffect(() => {
+    console.log(finished, "primerooooooooooooooo")
+      setFinished(false)
+    console.log(finished)
+  },[props.proyecto])
   
   const handleCheckboxToggle = () => {
     //! faltaria definir una funcion de determine que se va a hacer cuando el check se marque
+    console.log("inTime, istotaltime", isTotalTime)
     setConfirmModal(true)
   };
+  const confirmChecked = () => {
+    setConfirmModal(false); 
+    setChecked(true); 
+    setFinished(true)
+  }
 
   const postInfo =
   {
@@ -28,7 +37,7 @@ const Tarea = (props) => {
   }
 
   return (
-    <View style={styles.container}>
+    <View style={finished?styles.disabledContainer:styles.container}>
       <Text style={props.entregable?styles.title:styles.disable} >{props.actividad}</Text>
       <CheckBox
         checked={checked}
@@ -45,7 +54,7 @@ const Tarea = (props) => {
           <View style={styles.modalContent}>
             <Text style={styles.text}>Después de aceptar no podrá editar la tarea</Text>
             <View style={styles.botones}>
-              <TouchableOpacity style={styles.boton} onPress={()=>{setConfirmModal(false); setChecked(true)}}>
+              <TouchableOpacity style={styles.boton} onPress={confirmChecked}>
                 <Text>Confirmar</Text>
               </TouchableOpacity>
               <TouchableOpacity style={styles.boton} onPress={()=>{setConfirmModal(false)}}>
@@ -56,7 +65,7 @@ const Tarea = (props) => {
         </View>
       </Modal>
 
-      <Time entrega={props.entregable} postInfo={postInfo} isTime={handleTotalTime} setChecked={setChecked}/>
+      <Time entrega={props.entregable} postInfo={postInfo} isTime={setIsTotalTime} setChecked={setChecked}/>
       <Entregables entrega={props.entregable} lista={props.listaEntregable}/>
       <Camera entrega={props.entregable}/>
     </View>
@@ -77,6 +86,9 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     paddingLeft: 15,
     paddingRight: 8,
+  },
+  disabledContainer: {
+    display: "none"
   },
   modalContainer: {
     flex:1,
