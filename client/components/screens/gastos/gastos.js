@@ -30,9 +30,10 @@ const handlerScan = () => {
 }
 
 const mentira = {
-    concepto: "almuerzo",
+    concepto: "Factura",
     nombre: "estiven",
-    valor: "2000"
+    valor: "20000",
+    nit:"1020445"
 }
 
     return (
