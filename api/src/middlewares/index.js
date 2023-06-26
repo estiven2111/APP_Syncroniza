@@ -7,6 +7,7 @@ const {
   hourActivities,
   logout
 } = require("./proyect");
+const Ocr = require("./Ocr")
 
 module.exports = {
   login,
@@ -14,5 +15,6 @@ module.exports = {
   getProyect,
   registerActivities,
   hourActivities,
-  logout
+  logout,
+  Ocr
 };
