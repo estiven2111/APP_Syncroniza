@@ -61,6 +61,7 @@ const SearchBar = () => {
         value={searchText}
         onChangeText={handleSearch}
         placeholder="Busca el Proyecto o sin Proyecto"
+        placeholderTextColor="grey"
       />
       {showOptions && (
         <View style={styles.modalContainer}>
@@ -85,7 +86,8 @@ const styles = {
   input: {
     height: 40,
     borderWidth: 1,
-    borderColor: 'lightgrey',
+    backgroundColor: "rgb(210,210,210)",
+    borderColor: "rgb(120,120,120)",
     padding: 10,
     borderRadius: 10
   },

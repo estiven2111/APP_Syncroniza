@@ -6,6 +6,7 @@ import ImagePickerComponent from './imagePicker';
 import callGoogleVisionAsync from './helperFunction';
 import UseCameraOCR from '../../../utils/useCamOCR';
 import Camera from '../actividades/camera';
+import api from '../../../api/api';
 
 const Gastos = () => {
     const [openCamera, setOpenCamera] = useState(false);
@@ -25,8 +26,25 @@ useEffect(()=> {
 
 }, [toScan])
 
-const handlerScan = () => {
+const handlerScan = async () => {
     console.log("vamos bien!!")
+    try {
+        const formData = new FormData();
+        formData.append('imagen', {
+          uri: toScan,
+          type: 'image/jpeg',
+          name: 'nombre_de_la_imagen.jpg'
+        });
+    
+        const response = await api.post('/proyect/ocr', formData, {
+          headers: {
+            'Content-Type': 'multipart/form-data'
+          }
+        });
+        console.log(response.data);
+      } catch (error) {
+        console.error(error);
+      }
 }
 
 const mentira = {
