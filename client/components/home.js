@@ -20,13 +20,13 @@ const Home = () => {
       <Tab.Navigator
         tabBarOptions={{
           style: {
-            backgroundColor: "white",
-            height: 60,
+            backgroundColor: 'rgb(15, 70, 125)',
+            height: 70,
           },
-          activeTintColor: "black",
+          activeTintColor: "white",
           inactiveTintColor: "gray",
           indicatorStyle: {
-            backgroundColor: "black",
+            backgroundColor: "white",
           },
         }}
       >
@@ -34,17 +34,23 @@ const Home = () => {
           name="Actividades"
           component={Actividades}
           options={{
-            tabBarIcon: ({ color, size }) => (
-              <Ionicons name="checkbox-outline" size={20} color="black" />
-            ),
+            tabBarIcon: ({ color, size, focused }) => (
+            <Ionicons
+              name={'checkbox-outline'}
+              size={20}
+              color={focused ? color="white":color="grey"}
+              style={{ marginBottom: focused ? 5 : 0 }} // Ejemplo de estilo condicional
+            />
+          ),
           }}
         />
         <Tab.Screen
           name="Gasto"
           component={Gastos}
           options={{
-            tabBarIcon: ({ color, size }) => (
-              <MaterialIcons name="attach-money" size={20} color="black" />
+            tabBarIcon: ({ color, size, focused }) => (
+              <MaterialIcons name="attach-money" size={20} color={focused ? color="white":color="grey"}
+              style={{ marginBottom: focused ? 5 : 0 }} />
             ),
           }}
         />
@@ -52,8 +58,9 @@ const Home = () => {
           name="Indicadores"
           component={Indicadores}
           options={{
-            tabBarIcon: ({ color, size }) => (
-              <Entypo name="bar-graph" size={20} color="black" />
+            tabBarIcon: ({ color, size, focused }) => (
+              <Entypo name="bar-graph" size={20} color={focused ? color="white":color="grey"}
+              style={{ marginBottom: focused ? 5 : 0 }}/>
             ),
           }}
         />
@@ -65,7 +72,7 @@ const Home = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    paddingTop: 60, // Ajusta el espacio superior según tus necesidades
+    paddingTop: 60,
   },
 });
 export default Home;
