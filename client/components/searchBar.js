@@ -86,7 +86,7 @@ const styles = {
   input: {
     height: 40,
     borderWidth: 1,
-    backgroundColor: "rgb(180,180,180)",
+    backgroundColor: "rgb(210,210,210)",
     borderColor: "rgb(120,120,120)",
     padding: 10,
     borderRadius: 10
