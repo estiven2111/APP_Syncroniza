@@ -228,7 +228,7 @@ const registerActivities = async (req, res) => {
 const hourActivities = async (req, res) => {
   try {
     const { activity, proyect } = req.query;
-    console.log(activity, proyect, component);
+    console.log(activity, proyect);
 
     const hours = await sequelize.query(
       `SELECT SUM(Hora_Total) as horas FROM TBL_SER_RegistroActividades where Nombre_actividad = '${activity}'AND Nombre_Proyecto = '${proyect}'`
