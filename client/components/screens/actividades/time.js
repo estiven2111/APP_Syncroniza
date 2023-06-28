@@ -109,7 +109,10 @@ const Time = ({ entrega, postInfo, isTime, setChecked}) => {
         fecha: date,
         inicio : startTime?startTime.split(":").join("."):"00.00",
         fin : endTime?endTime.split(":").join("."):"00.00",
-        HParcial : editedTime?newDuration.split(":").join("."):getDuration().split(":").join(".")
+        HParcial : editedTime?newDuration.split(":").join("."):getDuration().split(":").join("."),
+        finished:false,
+        user:"adriana",
+        email:"adriana.ramos@creame.com.co"
       });
       isTime(response.data.horaTotal)
       setTotalTime(response.data.horaTotal);
