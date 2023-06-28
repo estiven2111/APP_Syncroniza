@@ -6,7 +6,7 @@ import * as MediaLibrary from 'expo-media-library';
 
 
 //!vamos de aqui
-const UseCamera = () => {
+const UseCamera = ({closeCam}) => {
     const [type, setType] = useState(CameraType.back);
     const [permission, requestPermission] = Camera.useCameraPermissions();
     const [permissionResponse, requestPermissions] = MediaLibrary.usePermissions()
@@ -51,6 +51,7 @@ const UseCamera = () => {
     const savePicture = ()=> {
         MediaLibrary.saveToLibraryAsync(photo)
         setPhotoModal(false)
+        closeCam()
     }
 
     function toggleCameraType() {
@@ -68,13 +69,17 @@ const UseCamera = () => {
                     <Icon name="camera" size={40} color="white" />
                 </TouchableOpacity>
                 <Modal animationType= "slide" visible={photoModal} transparent={false}>
-                    <Image source={{uri: photo}} style={styles.photo}/>
-                    <TouchableOpacity onPress={() => savePicture()}>
-                        <Text>Guardar</Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity onPress={() => setPhotoModal(false)}>
-                        <Text>Cerrar</Text>
-                    </TouchableOpacity>
+                    <View style={styles.takedPhoto}>
+                        <Image source={{uri: photo}} style={styles.photo}/>
+                        <View style={styles.options}>
+                            <TouchableOpacity style={styles.buttonOption} onPress={() => savePicture()}>
+                                <Text style={styles.textOption}>Guardar</Text>
+                            </TouchableOpacity>
+                            <TouchableOpacity style={styles.buttonOption} onPress={() => setPhotoModal(false)}>
+                                <Text style={styles.textOption}>Cancelar</Text>
+                            </TouchableOpacity>
+                        </View>
+                    </View>
                 </Modal>
             </View>  
         </View>
@@ -90,7 +95,7 @@ const UseCamera = () => {
         backgroundColor: "black"
         },
         camera: {
-            height: 500
+            height: 550
         },
         buttonContainer: {
             flexDirection: 'row',
@@ -108,10 +113,36 @@ const UseCamera = () => {
             fontWeight: 'bold',
             color: 'white',
         },
+        takedPhoto: {
+            flex: 1,
+            alignItems: "center",
+            justifyContent: "center",
+            backgroundColor: "rgb(51,51,51)"
+        },
         photo: {
             width: "100%",
             height: 350
-        }
+        },
+        options: {
+            flexDirection: "row",
+            width: 350,
+            justifyContent: "space-between"
+        },
+        textOption: {
+            fontSize: 20,
+            color: "white",
+            padding: 5,
+            textAlign: "center"
+        },
+        buttonOption: {
+            alignSelf: 'center',
+            justifyContent: "center",
+            padding: 3,
+            margin: 15,
+            backgroundColor: "rgb(100,100,100)",
+            borderRadius: 10,
+            width: 130
+        },
     });
 
 export default UseCamera
