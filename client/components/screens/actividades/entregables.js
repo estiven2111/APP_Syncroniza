@@ -12,7 +12,6 @@ const Entregables = (props) => {
       setModalVisible(false);
     };
 
-
     return (
         <View>
         <TouchableOpacity style={props.entrega?styles.button:styles.disable} disabled={props.entrega?false:true} onPress={openModal}>
@@ -24,9 +23,10 @@ const Entregables = (props) => {
                     <Text>ENTREGABLES A ENVIAR:</Text>
                     {props.lista.map((ent, index) => {
                         return( 
-                        <View style={styles.entregables} key={index}>
-                            <FilePickerButton ent={ent}/>
-                        </View> )
+                            <View style={styles.entregables} key={index}>
+                                <FilePickerButton ent={ent}/>
+                            </View> 
+                        )
                     })}
                     <TouchableOpacity onPress={closeModal}>
                         <Text>OK</Text>

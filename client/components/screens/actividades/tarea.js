@@ -11,16 +11,13 @@ const Tarea = (props) => {
   const [isTotalTime, setIsTotalTime] = useState("")
   const [finished, setFinished] = useState (false)
 
-  console.log(isTotalTime, " donde estaaaaaaaaaaaaaaaas??")
   useEffect(() => {
-    console.log(finished, "primerooooooooooooooo")
       setFinished(false)
     console.log(finished)
   },[props.proyecto])
   
   const handleCheckboxToggle = () => {
     //! faltaria definir una funcion de determine que se va a hacer cuando el check se marque
-    console.log("inTime, istotaltime", isTotalTime)
     setConfirmModal(true)
   };
   const confirmChecked = () => {
@@ -36,59 +33,79 @@ const Tarea = (props) => {
     activity : props.actividad,
   }
 
+  const [numberOfLines, setNumberOfLines] = useState(true);
+  const handlePress = () => {
+      setNumberOfLines(!numberOfLines);
+  };
+
   return (
     <View style={finished?styles.disabledContainer:styles.container}>
-      <Text style={props.entregable?styles.title:styles.disable} >{props.actividad}</Text>
-      <CheckBox
-        checked={checked}
-        containerStyle={styles.checkBoxContainer}
-        checkedColor="black"
-        onPress={() => {
-          if (!isNaN(isTotalTime)) {
-            handleCheckboxToggle();
-          }
-        }}
-      />
-      <Modal visible={confirmModal} transparent={true} >
-        <View style={styles.modalContainer}>
-          <View style={styles.modalContent}>
-            <Text style={styles.text}>Después de aceptar no podrá editar la tarea</Text>
-            <View style={styles.botones}>
-              <TouchableOpacity style={styles.boton} onPress={confirmChecked}>
-                <Text>Confirmar</Text>
-              </TouchableOpacity>
-              <TouchableOpacity style={styles.boton} onPress={()=>{setConfirmModal(false)}}>
-                <Text>Cancelar</Text>
-              </TouchableOpacity>
+      <View style={styles.pruebas}>
+        <TouchableOpacity onPress={handlePress}>
+          <Text ellipsizeMode="tail" numberOfLines={numberOfLines?2:10} style={props.entregable?styles.title:styles.disable} >{props.actividad}</Text>
+        </TouchableOpacity>
+      </View>
+      <View style={styles.iconsCont}>
+        <CheckBox
+          checked={checked}
+          containerStyle={styles.checkBoxContainer}
+          checkedColor="black"
+          uncheckedColor="black"
+          onPress={() => {
+            if (!isNaN(isTotalTime)) {
+              handleCheckboxToggle();
+            }
+          }}
+        />
+        <Modal visible={confirmModal} transparent={true} >
+          <View style={styles.modalContainer}>
+            <View style={styles.modalContent}>
+              <Text style={styles.text}>Después de aceptar no podrá editar la tarea</Text>
+              <View style={styles.botones}>
+                <TouchableOpacity style={styles.boton} onPress={confirmChecked}>
+                  <Text>Confirmar</Text>
+                </TouchableOpacity>
+                <TouchableOpacity style={styles.boton} onPress={()=>{setConfirmModal(false)}}>
+                  <Text>Cancelar</Text>
+                </TouchableOpacity>
+              </View>
             </View>
           </View>
-        </View>
-      </Modal>
+        </Modal>
 
-      <Time entrega={props.entregable} postInfo={postInfo} isTime={setIsTotalTime} setChecked={setChecked}/>
-      <Entregables entrega={props.entregable} lista={props.listaEntregable}/>
-      <Camera entrega={props.entregable}/>
+        <Time entrega={props.entregable} postInfo={postInfo} isTime={setIsTotalTime} setChecked={setChecked}/>
+        <Entregables entrega={props.entregable} lista={props.listaEntregable}/>
+        <Camera entrega={props.entregable}/>
+      </View>
     </View>
   );
 };
 
 const styles = StyleSheet.create({
   title: {
-    width: "40%",
+    textAlign: "justify"
   },
   disable: {
-    width: "40%",
-    backgroundColor:"rgba(57, 162, 228, 0.895)"
+    textAlign: "justify"
   },
   container: {
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
-    paddingLeft: 15,
-    paddingRight: 8,
+    paddingHorizontal: 8,
+    paddingVertical: 5
   },
   disabledContainer: {
     display: "none"
+  },
+  pruebas: {
+    width : "50%"
+
+  },
+  iconsCont: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    width: "50%"
   },
   modalContainer: {
     flex:1,
@@ -123,7 +140,7 @@ const styles = StyleSheet.create({
   },
   checkBoxContainer: {
     padding: 0,
-    margin: 0,
+    margin: 0
   },
 });
 
