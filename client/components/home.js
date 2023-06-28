@@ -18,6 +18,7 @@ const Home = () => {
     <View style={styles.container}>
       <WelcomeBar/>
       <Tab.Navigator
+        sceneContainerStyle={styles.sceneContainer}
         tabBarOptions={{
           style: {
             backgroundColor: 'rgb(15, 70, 125)',
@@ -74,5 +75,8 @@ const styles = StyleSheet.create({
     flex: 1,
     paddingTop: 60,
   },
+  sceneContainer: {
+    backgroundColor: "rgb(230,230,230)"
+  }
 });
 export default Home;

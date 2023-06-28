@@ -21,10 +21,7 @@ const Camera = (props) => {
         
         <Modal visible={openCamera} onRequestClose={closeCam} transparent={true}>
             <View style={styles.modalContainer}>
-                    <UseCamera/>
-                    <TouchableOpacity onPress={closeCam}>
-                        <Text>OK</Text>
-                    </TouchableOpacity>
+                    <UseCamera closeCam={closeCam}/>
             </View>
         </Modal>
     </View>
