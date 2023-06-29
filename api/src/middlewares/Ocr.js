@@ -78,99 +78,10 @@ res.send(obj)
   } catch (error) {
     return res.send(error)
   }
-  //console.log("sssssssssssssssssss", uploadPath);
-
-  // imagen.mv(`${uploadPath}`, (err) => {
-  //   if (err) return res.status(500).send(err);
-  // });
-
-  // const storage = multer.diskStorage({
-  //     destination: function (req, file, cb) {
-  //         cb(null, 'uploads')
-  //     },
-  //     filename: function (req, file, cb) {
-  //         cb(null, `${Date.now()}-${file.originalname}`)
-  //     }
-  // })
-
-  // const upload = multer({ storage: storage })
-
-  // exports.upload = upload.single('myFile')
-
-  // exports.uploadFile = (req, res) => {
-  //     res.send({ data: 'Enviar un archivo' })
-  // }
-
-  //   const image = path.resolve(
-  //     __dirname,
-  //     (`../../../${imagen.name}`)
-  //   );
-
-  // try {
-  //   // const { createWorker } = Tesseract;
-  //   // const worker = await createWorker();
-  //   // await worker.load();
-  //   // await worker.loadLanguage("eng");
-  //   // await worker.initialize("eng");
-  //   // const {
-  //   //   data: { text },
-  //   // } = await worker.recognize(`src/middlewares/${imagen.name}`);
-  //   // await worker.terminate();
-  //   // const text1 = text
-  //   // await fs_extra.unlink(`src/middlewares/${imagen.name}`);
-  //   //     const pr = "PAGAR:20000"
-  //   //       const regex = /PAGAR:(\d+)/;
-  //   //     const match =  pr.matchAll(regex);
-  //   // console.log(match,"regesssssssssssx",regex)
-  //   //     if (match) {
-  //   //       // El número se encuentra en el grupo de captura (índice 1)
-  //   //       const numero = match[1];
-  //   //       console.log("Número de saldo:", numero);
-  //   //     } else {
-  //   //       console.log("No se encontró un número de saldo");
-  //   //     }
-  //   //     res.send("text");
-  // } catch (error) {
-  //   res.send(error);
-  // }
-  // todo esto es otro
-
-  //   const { createWorker, PSM } = Tesseract;
-
-  //   const worker = await createWorker();
-
-  //   await worker.loadLanguage("eng");
-  //   await worker.initialize("eng");
-  //   await worker.setParameters({
-  //     tessedit_pageseg_mode: PSM.SINGLE_BLOCK,
-  //   });
-  //   const {
-  //     data: { text },
-  //   } = await worker.recognize(`../../uploads/${imagen.name}`);
-  //   console.log(text);
-  //   await worker.terminate();
-  //   return
-  //   let text;
-  //   Tesseract.recognize("./tese.png", "eng", {
-  //     logger: (e) => console.log(""),
-  //   }).then((out) => {
-  //     {
-  //       text = out.data.text;
-  //     }
-  //   });
-
-  // (async () => {
-  //   await worker.loadLanguage('eng');
-  //   await worker.initialize('eng');
-  //   await worker.setParameters({
-  //     tessedit_pageseg_mode: PSM.SINGLE_BLOCK,
-  //   });
-  //   const { data: { text } } = await worker.recognize('./tesseract.png');
-  //   console.log(text);
-  //   await worker.terminate();
-  // })();
-  //   res.send(text);
+ 
 };
+
+//!validar onedrive
 
 // const Ocr = async (req, res) => {
 //   const { img } = req.files;
