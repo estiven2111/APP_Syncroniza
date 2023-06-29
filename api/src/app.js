@@ -9,7 +9,7 @@ app.use(cors());
 app.use(express.json());
 app.use(bodyParser.json());
 app.use(fileupload());
-app.use(express.static("uploads"));
+// app.use(express.static("uploads"));
 app.use("/", router);
 
 module.exports = app;

@@ -4,7 +4,8 @@ import { CheckBox } from "react-native-elements";
 import Time from "./time";
 import Entregables from "./entregables";
 import Camera from "./camera";
-
+import api from "../../../api/api";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 const Tarea = (props) => {
   const [checked, setChecked] = useState(false);
   const [confirmModal, setConfirmModal] = useState(false)
@@ -20,18 +21,34 @@ const Tarea = (props) => {
     //! faltaria definir una funcion de determine que se va a hacer cuando el check se marque
     setConfirmModal(true)
   };
-  const confirmChecked = () => {
-    setConfirmModal(false); 
-    setChecked(true); 
-    setFinished(true)
-  }
-
   const postInfo =
   {
     proyect : props.proyecto,
     component : props.componente,
     activity : props.actividad,
   }
+  const confirmChecked = async() => {
+      const formatDate = new Date().toISOString().split("T")[0];
+    const name = await AsyncStorage.getItem("name")
+    const email = await AsyncStorage.getItem("email")
+    const response = await api.post("/proyect/hours", {
+      proyect : props.proyecto,
+      component : props.componente,
+      activity : props.actividad,
+      fecha: formatDate,
+      inicio : "00.00",
+      fin : "00.00",
+      HParcial : "00.00",
+      finished:true,
+      user:name,
+      email:email
+    });
+    setConfirmModal(false); 
+    setChecked(true); 
+    setFinished(true)
+  }
+
+
 
   const [numberOfLines, setNumberOfLines] = useState(true);
   const handlePress = () => {
