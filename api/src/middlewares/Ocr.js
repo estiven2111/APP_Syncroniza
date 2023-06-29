@@ -1,7 +1,6 @@
 const Tesseract = require("tesseract.js");
 const path = require("path");
 const fs_extra = require("fs-extra");
-
 const { Client } = require("@microsoft/microsoft-graph-client");
 const fs = require("fs");
 const Jimp = require("jimp"); //! organizar pixeles de imagenes
@@ -151,7 +150,7 @@ console.log(imagen)
     // console.log("Nimero de Documento:", numeroDocumento);
     // console.log("VALOR A PAGAR:) $", valorAPagar);
     // console.log("la fecha es ",fechafactura)
-    //  console.log(text)
+      console.log(text)
     res.send(obj);
   } catch (error) {
     return res.send(error);

@@ -34,7 +34,7 @@ const [responsedata,setResponsedata] = useState({
     doc:"",
     total:"",
     nombre:"",
-    rete:0.0
+    rete:""
 })
 const handlerScan = async () => {
     try {
@@ -78,7 +78,8 @@ const handlerCancel = () => {
         doc:"",
         total:"",
         nombre:"",
-        rete:0.0
+        iva:"",
+        rete:""
     })
     setToScan("");
 }
