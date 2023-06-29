@@ -92,7 +92,6 @@ const Time = ({ entrega, postInfo, isTime, setChecked}) => {
         
         setTotalTime(response.data)
         isTime(response.data)
-        console.log(response.data,"aquiiiiiiiiii")
         setChecked(false)
       } catch (error) {
         console.error("No se envio la informacion correctamente", error);
