@@ -15,7 +15,6 @@ const UseCameraOCR = ({setToScan, closeCam}) => {
     const [photo, setPhoto] = useState("");
     useEffect(() => {
         setToScan(photo)
-        console.log("la buena", photo)
     },[photo, setToScan])
     
     const camRef = useRef(null);
@@ -67,20 +66,24 @@ const UseCameraOCR = ({setToScan, closeCam}) => {
     return (
         <View style={styles.container}>
             <Camera style={styles.camera} type={type} ref={camRef}/>
-            <View style={styles.buttonContainer}>
-                <TouchableOpacity style={styles.button} onPress={() => toggleCameraType()}>
-                    <Icon name="refresh" size={40} color="white" />
-                </TouchableOpacity>
-                <TouchableOpacity style={styles.button} onPress={() => takePicture()}>
-                    <Icon name="camera" size={40} color="white" />
-                </TouchableOpacity>
+            <View>
+                <View style={styles.buttonContainer}>
+                    <TouchableOpacity style={styles.button} onPress={() => toggleCameraType()}>
+                        <Icon name="refresh" size={40} color="white" />
+                    </TouchableOpacity>
+                    <TouchableOpacity style={styles.button} onPress={() => takePicture()}>
+                        <Icon name="camera" size={40} color="white" />
+                    </TouchableOpacity>
+                </View>
                 <Modal animationType= "slide" visible={photoModal} transparent={false}>
-                    <TouchableOpacity onPress={() => savePicture()}>
-                        <Text>Confirmar</Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity onPress={() => setPhotoModal(false) }>
-                        <Text>Cancelar</Text>
-                    </TouchableOpacity>
+                    <View style={styles.modalOptions}>
+                        <TouchableOpacity onPress={() => savePicture()} style={styles.prueba}>
+                            <Text>Confirmar</Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity onPress={() => setPhotoModal(false) }>
+                            <Text>Cancelar</Text>
+                        </TouchableOpacity>
+                    </View>
                 </Modal>
             </View>  
         </View>
@@ -117,7 +120,23 @@ const UseCameraOCR = ({setToScan, closeCam}) => {
         photo: {
             width: "100%",
             height: 350
-        }
+        },
+        // modalCont: {
+        //     justifyContent:"center",
+        //     alignItems: "center",
+        //     backgroundColor: "red"
+        // },
+        modalOptions: {
+            backgroundColor: 'blue',
+            justifyContent: 'center',
+            alignItems: 'center',
+            height: 250,
+            flexDirection: "row"
+          },
+          prueba: {
+            width: 150,
+            backgroundColor: "red"
+          }
     });
 
 export default UseCameraOCR

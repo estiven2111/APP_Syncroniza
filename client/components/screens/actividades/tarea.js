@@ -14,7 +14,6 @@ const Tarea = (props) => {
 
   useEffect(() => {
       setFinished(false)
-    console.log(finished)
   },[props.proyecto])
   
   const handleCheckboxToggle = () => {

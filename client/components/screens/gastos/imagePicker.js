@@ -1,10 +1,10 @@
 import * as ImagePicker from 'expo-image-picker';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
-function ImagePickerComponent({ onSubmit }) {
+function ImagePickerComponent({ setToScan }) {
   const [image, setImage] = useState(null);
 
   const pickImage = async () => {
@@ -18,11 +18,15 @@ function ImagePickerComponent({ onSubmit }) {
       if (assets.length > 0) {
         const selectedAsset = assets[0];
         setImage(selectedAsset.uri);
-        const googleText = await onSubmit(selectedAsset.base64);
+        console.log(selectedAsset.uri)
         
       }
     }
   };
+
+  useEffect(() => {
+    setToScan(image)
+},[image])
   return (
     <View style={styles.container}>
       <TouchableOpacity>
