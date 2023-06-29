@@ -2,11 +2,12 @@ import React, {useState, useEffect} from 'react';
 import { ScrollView, View, Text, TextInput, TouchableOpacity, StyleSheet, Modal, Dimensions, Image } from 'react-native';
 import Constants from "expo-constants";
 import SearchBar from '../../searchBar';
-import ImagePickerComponent from './imagePicker';
 import callGoogleVisionAsync from './helperFunction';
 import UseCameraOCR from '../../../utils/useCamOCR';
 import Camera from '../actividades/camera';
+import ImagePickerComponent from "./imagePicker"
 import api from '../../../api/api';
+import Icon from 'react-native-vector-icons/FontAwesome';
 
 const Gastos = () => {
     const [openCamera, setOpenCamera] = useState(false);
@@ -64,9 +65,20 @@ const mentira = {
                 </View>
                 <View style={styles.scan}>
                 {toScan?<Image source={{uri: toScan}} style={styles.photo}/>:null}
-                <TouchableOpacity style={styles.button} onPress={toScan?handlerScan:openCam}>
-                    <Text>{toScan?"Escanear":"abrir camara"}</Text>
-                </TouchableOpacity>
+                {toScan
+                ?
+                    <TouchableOpacity style={styles.button} onPress={toScan?handlerScan:openCam}>
+                            <Text>Escanear</Text>
+                    </TouchableOpacity>
+                :
+                    <View style={styles.select}>
+                        <TouchableOpacity style={styles.button} onPress={toScan?handlerScan:openCam}>
+                            <Icon name="camera" size={30} color="black"/>
+                        </TouchableOpacity>
+                        <ImagePickerComponent/>
+                    </View>
+                }
+                
                 <Modal visible={openCamera} onRequestClose={closeCam} transparent={true}>
                     <View style={styles.modalContainer}>
                         <UseCameraOCR setToScan={newPhoto} closeCam={closeCam}/>
@@ -112,11 +124,19 @@ const styles = StyleSheet.create({
         padding: 5,
         flexDirection: "row"
     },
+    select: {
+        flexDirection: "row",
+        justifyContent: "center",
+        alignItems: "center",
+    },
     button: {
-        backgroundColor: 'white',
+        backgroundColor: "white",
         padding: 5,
-        height: 30,
+        margin: 10,
+        height: 50,
+        width: 50,
         borderRadius: 8,
+        alignItems: "center",
         justifyContent: 'center',
       },
     scan: {
@@ -124,7 +144,7 @@ const styles = StyleSheet.create({
         paddingHorizontal: 10,
         marginVertical: 5,
         marginHorizontal: 20,
-        height:135 ,
+        height:175 ,
         borderRadius: 4,
         justifyContent: "center"
     },
@@ -133,7 +153,11 @@ const styles = StyleSheet.create({
       backgroundColor: "lightgrey",
       marginHorizontal: 10,
       borderRadius: 10,
+      height:40,
       flex: 1
+    },
+    icon: {
+        margin: 5
     },
     footer: {
       marginBottom: 40
