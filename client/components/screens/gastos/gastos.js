@@ -28,6 +28,14 @@ useEffect(()=> {
 
 //! este estado se debe cambiar por los parametros de cada input
 const [fillData, setFillData] = useState(false)
+const [responsedata,setResponsedata] = useState({
+    nit:"",
+    numFact:"",
+    doc:"",
+    total:"",
+    nombre:"",
+    rete:0.0
+})
 const handlerScan = async () => {
     try {
         const formData = new FormData();
@@ -42,6 +50,21 @@ const handlerScan = async () => {
             'Content-Type': 'multipart/form-data'
           }
         });
+        const num = parseFloat(`2${response.data.total}`)
+        
+        const iva =  (num * 19) / 100;
+        const rete = (num * 4) / 100;
+        console.log(iva)
+        setResponsedata({
+            nit:response.data.nit,
+            numFact:response.data.numFact,
+            doc:response.data.doc,
+            total:`2${response.data.total}`,
+            nombre:`${response.data.nombre}`,
+            iva,
+            rete
+        })
+        console.log(responsedata)
         setFillData(true)
       } catch (error) {
         console.error(error);
@@ -49,15 +72,23 @@ const handlerScan = async () => {
 }
 
 const handlerCancel = () => {
+    setResponsedata({
+        nit:"",
+        numFact:"",
+        doc:"",
+        total:"",
+        nombre:"",
+        rete:0.0
+    })
     setToScan("");
 }
 
-const mentira = {
-    concepto: "Factura",
-    nombre: "estiven",
-    valor: "20000",
-    nit:"1020445"
-}
+// const mentira = {
+//     concepto: "Factura",
+//     nombre: "estiven",
+//     valor: "20000",
+//     nit:"1020445"
+// }
 
     return (
         <View style={styles.container}>
@@ -95,17 +126,17 @@ const mentira = {
                     </View>
                 </Modal>
                 </View>
-                <TextInput style={styles.input} placeholder='*Concepto' value={fillData?mentira.concepto:""}/>
+                <TextInput style={styles.input} placeholder='*Concepto' value={fillData?responsedata.nombre:""}/>
                 <View style={styles.inputCont}>
                     <TextInput style={styles.input} placeholder='*NIT/CC'/>
-                    <TextInput style={styles.input} placeholder='*Nombre' value={fillData?mentira.nombre:""}/>
+                    <TextInput style={styles.input} placeholder='*Nombre' value={fillData?responsedata.nombre:""}/>
                 </View>
                 <View style={styles.inputCont}>
-                    <TextInput style={styles.input} placeholder='*Valor pagado $...' value={fillData?mentira.valor:""}/>
-                    <TextInput style={styles.input} placeholder='Valor IVA $...'/>
+                    <TextInput style={styles.input} placeholder='*Valor pagado $...' value={fillData?`${responsedata.total}`:""}/>
+                    <TextInput style={styles.input} placeholder='Valor IVA $...'value={fillData?`${responsedata.iva}`:""}/>
                 </View>
                 <View style={styles.inputCont}>
-                    <TextInput style={styles.input} placeholder='Valor Rete fuente $'/>
+                    <TextInput style={styles.input} placeholder='Valor Rete fuente $'value={fillData?`${responsedata.rete}`:""}/>
                     <TextInput style={styles.input} placeholder='*DD/MM/AAAA'/>
                 </View>
                 <View style={styles.inputCont}>
