@@ -13,9 +13,9 @@ const UseCameraOCR = ({setToScan, closeCam}) => {
     
     const [photoModal, setPhotoModal] = useState(null);
     const [photo, setPhoto] = useState("");
-    useEffect(() => {
-        setToScan(photo)
-    },[photo, setToScan])
+    // useEffect(() => {
+    //     setToScan(photo)
+    // },[photo, setToScan])
     
     const camRef = useRef(null);
 
@@ -54,6 +54,7 @@ const UseCameraOCR = ({setToScan, closeCam}) => {
 
     const savePicture = ()=> {
         MediaLibrary.saveToLibraryAsync(photo)
+        setToScan(photo)
         setPhotoModal(false)
         closeCam()
     }
@@ -75,16 +76,18 @@ const UseCameraOCR = ({setToScan, closeCam}) => {
                         <Icon name="camera" size={40} color="white" />
                     </TouchableOpacity>
                 </View>
-                <Modal animationType= "slide" visible={photoModal} transparent={false}>
-                    <View style={styles.modalOptions}>
-                        <TouchableOpacity onPress={() => savePicture()} style={styles.prueba}>
-                            <Text>Confirmar</Text>
-                        </TouchableOpacity>
-                        <TouchableOpacity onPress={() => setPhotoModal(false) }>
-                            <Text>Cancelar</Text>
-                        </TouchableOpacity>
-                    </View>
-                </Modal>
+                    <Modal animationType= "slide" visible={photoModal} transparent={true}>
+                <View style={styles.modalCont}>
+                        <View style={styles.modalOptions}>
+                            <TouchableOpacity onPress={() => savePicture()} style={styles.button2}>
+                                <Text style={styles.text}>Confirmar</Text>
+                            </TouchableOpacity>
+                            <TouchableOpacity onPress={() => setPhotoModal(false) } style={styles.button2}>
+                                <Text style={styles.text}>Cancelar</Text>
+                            </TouchableOpacity>
+                        </View>
+                </View>
+                    </Modal>
             </View>  
         </View>
     );
@@ -121,21 +124,28 @@ const UseCameraOCR = ({setToScan, closeCam}) => {
             width: "100%",
             height: 350
         },
-        // modalCont: {
-        //     justifyContent:"center",
-        //     alignItems: "center",
-        //     backgroundColor: "red"
-        // },
+        modalCont: {
+            justifyContent:"center",
+            alignItems: "center",
+            flex: 1,
+            backgroundColor: "rgba(0, 0, 0, 0.8)"
+        },
         modalOptions: {
-            backgroundColor: 'blue',
             justifyContent: 'center',
             alignItems: 'center',
-            height: 250,
             flexDirection: "row"
           },
-          prueba: {
-            width: 150,
-            backgroundColor: "red"
+          button2: {
+            width: 100,
+            backgroundColor: "white",
+            padding: 5,
+            marginHorizontal:30,
+            alignItems: "center",
+            borderRadius: 5
+          },
+          text: {
+            textAlign: "center",
+            fontSize:18
           }
     });
 
