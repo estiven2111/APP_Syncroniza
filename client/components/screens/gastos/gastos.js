@@ -21,14 +21,14 @@ const Gastos = () => {
     const [toScan, setToScan] = useState("")
     const newPhoto = (value) => {
         setToScan(value)
-        console.log("llego", toScan)
     }
 useEffect(()=> {
 
 }, [toScan])
 
+//! este estado se debe cambiar por los parametros de cada input
+const [fillData, setFillData] = useState(false)
 const handlerScan = async () => {
-    console.log("vamos bien!!")
     try {
         const formData = new FormData();
         formData.append('imagen', {
@@ -42,10 +42,14 @@ const handlerScan = async () => {
             'Content-Type': 'multipart/form-data'
           }
         });
-        console.log(response.data);
+        setFillData(true)
       } catch (error) {
         console.error(error);
       }
+}
+
+const handlerCancel = () => {
+    setToScan("");
 }
 
 const mentira = {
@@ -67,34 +71,37 @@ const mentira = {
                 {toScan?<Image source={{uri: toScan}} style={styles.photo}/>:null}
                 {toScan
                 ?
-                    <TouchableOpacity style={styles.button} onPress={toScan?handlerScan:openCam}>
-                            <Text>Escanear</Text>
-                    </TouchableOpacity>
+                //! aqui me quede!!!!!!
+                    <View style={styles.scanCont}>
+                        <TouchableOpacity style={styles.buttonScan} onPress={handlerScan}>
+                                <Text>Escanear</Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity style={styles.buttonScan} onPress={handlerCancel}>
+                                <Text>Cancelar</Text>
+                        </TouchableOpacity>
+                    </View>
                 :
                     <View style={styles.select}>
-                        <TouchableOpacity style={styles.button} onPress={toScan?handlerScan:openCam}>
+                        <TouchableOpacity style={styles.button} onPress={openCam}>
                             <Icon name="camera" size={30} color="black"/>
                         </TouchableOpacity>
-                        <ImagePickerComponent/>
+                        <ImagePickerComponent setToScan={newPhoto}/>
                     </View>
                 }
                 
                 <Modal visible={openCamera} onRequestClose={closeCam} transparent={true}>
                     <View style={styles.modalContainer}>
                         <UseCameraOCR setToScan={newPhoto} closeCam={closeCam}/>
-                        <TouchableOpacity onPress={closeCam}>
-                            <Text>OK</Text>
-                        </TouchableOpacity>
                     </View>
                 </Modal>
                 </View>
-                <TextInput style={styles.input} placeholder='*Concepto' value={toScan?mentira.concepto:""}/>
+                <TextInput style={styles.input} placeholder='*Concepto' value={fillData?mentira.concepto:""}/>
                 <View style={styles.inputCont}>
                     <TextInput style={styles.input} placeholder='*NIT/CC'/>
-                    <TextInput style={styles.input} placeholder='*Nombre' value={toScan?mentira.nombre:""}/>
+                    <TextInput style={styles.input} placeholder='*Nombre' value={fillData?mentira.nombre:""}/>
                 </View>
                 <View style={styles.inputCont}>
-                    <TextInput style={styles.input} placeholder='*Valor pagado $...' value={toScan?mentira.valor:""}/>
+                    <TextInput style={styles.input} placeholder='*Valor pagado $...' value={fillData?mentira.valor:""}/>
                     <TextInput style={styles.input} placeholder='Valor IVA $...'/>
                 </View>
                 <View style={styles.inputCont}>
@@ -138,15 +145,29 @@ const styles = StyleSheet.create({
         borderRadius: 8,
         alignItems: "center",
         justifyContent: 'center',
-      },
+    },
+    scanCont: {
+        justifyContent: "center",
+        alignItems: "center",
+        flexDirection: "row"
+    },
+    buttonScan: {
+        alignItems: "center",
+        margin: 3,
+        backgroundColor: "rgb(151,151,151)",
+        width: 100,
+        padding: 3,
+        borderRadius: 5
+    },
     scan: {
         backgroundColor: "pink",
         paddingHorizontal: 10,
         marginVertical: 5,
         marginHorizontal: 20,
-        height:175 ,
+        height:220 ,
         borderRadius: 4,
-        justifyContent: "center"
+        justifyContent: "center",
+        alignItems: "center"
     },
     input: {
       paddingHorizontal: 10,
@@ -170,8 +191,8 @@ const styles = StyleSheet.create({
       backgroundColor: 'rgba(0, 0, 0, 0.5)', // Fondo semitransparente para el modal
   },
   photo: {
-    // width: "100%",
-    height: 100
+    width: 185,
+    height: 185
 }
   });
 export default Gastos 
