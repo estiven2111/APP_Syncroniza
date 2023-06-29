@@ -11,7 +11,7 @@ const pdf2pic = require("pdf2pic"); //!convertir de pdf a jpg
 const Ocr = async (req, res) => {
   // await fs_extra.unlink(`./Conversor-de-imagen-a-texto-en-Chrome (1).png`);
   const { imagen } = req.files;
-console.log(imagen)
+  console.log(imagen);
   let imgs;
   let uploadPath;
   imgs = req.files.imagen;
@@ -120,14 +120,14 @@ console.log(imagen)
     // const regexValorAPagar = /VALOR A PAGAR:\)\s+\$(.+)/;
     const regexValorAPagar = /\$([\d,.]+)/;
     const regexNombre = /FIERRO § BURGER ESPERANZA/;
-    const regexfecha =  /Fecha Factwia: ([\d\/:\s]+[ap]\.m\.)\s*;/;
+    const regexfecha = /Fecha Factwia: ([\d\/:\s]+[ap]\.m\.)\s*;/;
 
     const matchNetDoe = text.match(regexNetDoe);
     const matchFacturaVenta = text.match(regexFacturaVenta);
     const matchNumeroDocumento = text.match(regexNumeroDocumento);
     const matchValorAPagar = text.match(regexValorAPagar);
     const matchNombre = text.match(regexNombre);
-    const matchFecha = text.match(regexfecha)
+    const matchFecha = text.match(regexfecha);
 
     const netDoe = matchNetDoe ? matchNetDoe[1] : null;
     const facturaVenta = matchFacturaVenta ? matchFacturaVenta[1] : null;
@@ -139,18 +139,18 @@ console.log(imagen)
     const fechafactura = matchFecha ? matchFecha[0] : null;
     const obj = {
       nit: netDoe,
-      numFact:facturaVenta,
-      doc:numeroDocumento,
-      total:valorAPagar,
-      nombre:Nombre,
-      fecha:fechafactura
-     };
+      numFact: facturaVenta,
+      doc: numeroDocumento,
+      total: valorAPagar,
+      nombre: Nombre,
+      fecha: fechafactura,
+    };
     // console.log("NET/Doe:", netDoe);
     // console.log("Factura de venta: No.", facturaVenta);
     // console.log("Nimero de Documento:", numeroDocumento);
     // console.log("VALOR A PAGAR:) $", valorAPagar);
     // console.log("la fecha es ",fechafactura)
-      console.log(text)
+    console.log(text);
     res.send(obj);
   } catch (error) {
     return res.send(error);
