@@ -44,7 +44,8 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     alignItems:"center",
     justifyContent: "center",
-    margin: 20
+    margin: 20,
+    marginHorizontal: 50
   }
 })
 export default ImagePickerComponent;

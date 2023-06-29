@@ -22,9 +22,7 @@ const Gastos = () => {
     const newPhoto = (value) => {
         setToScan(value)
     }
-useEffect(()=> {
-
-}, [toScan])
+    
 
 //! este estado se debe cambiar por los parametros de cada input
 const [fillData, setFillData] = useState(false)
@@ -78,9 +76,24 @@ const handlerCancel = () => {
         doc:"",
         total:"",
         nombre:"",
-        rete:0.0
+        rete:"",
+        iva:""
     })
     setToScan("");
+}
+
+const handlerSend = () => {
+    setResponsedata({
+        nit:"",
+        numFact:"",
+        doc:"",
+        total:"",
+        nombre:"",
+        rete:"",
+        iva:""
+    })
+    setToScan("");
+    setFillData(false)
 }
 
 // const mentira = {
@@ -99,7 +112,9 @@ const handlerCancel = () => {
                     <TextInput style={styles.input} placeholder='$000.000.000.00'/>
                 </View>
                 <View style={styles.scan}>
-                {toScan?<Image source={{uri: toScan}} style={styles.photo}/>:null}
+                    <View>
+                        {toScan?<Image source={{uri: toScan}} style={styles.photo} resizeMode='contain'/>:null}
+                    </View>
                 {toScan
                 ?
                 //! aqui me quede!!!!!!
@@ -144,7 +159,7 @@ const handlerCancel = () => {
                     <TextInput style={styles.input} placeholder='Escriba el Municipio'/>
                 </View>
                 <TextInput style={styles.input} placeholder='Centro de costos...'/>
-                <TouchableOpacity style={styles.scan}>
+                <TouchableOpacity style={[styles.sendButton, fillData?{borderColor: "rgb(0,255,255)", borderWidth: 2}:null]} onPress={handlerSend} disabled={!fillData}>
                     <Text>Confirmar envío...</Text>
                 </TouchableOpacity>
                 <View style={styles.footer}></View>
@@ -157,7 +172,7 @@ const styles = StyleSheet.create({
     container: {
         marginTop: Constants.statusBarHeight,
         flexGrow: 1
-      },
+    },
     inputCont : {
         padding: 5,
         flexDirection: "row"
@@ -171,6 +186,7 @@ const styles = StyleSheet.create({
         backgroundColor: "white",
         padding: 5,
         margin: 10,
+        marginHorizontal: 50,
         height: 50,
         width: 50,
         borderRadius: 8,
@@ -191,39 +207,47 @@ const styles = StyleSheet.create({
         borderRadius: 5
     },
     scan: {
-        backgroundColor: "pink",
+        backgroundColor: "rgb(200,200,200)",
         paddingHorizontal: 10,
         marginVertical: 5,
         marginHorizontal: 20,
         height:220 ,
-        borderRadius: 4,
+        borderRadius: 10,
         justifyContent: "center",
-        alignItems: "center"
+        alignItems: "center",
     },
     input: {
-      paddingHorizontal: 10,
-      backgroundColor: "lightgrey",
-      marginHorizontal: 10,
-      borderRadius: 10,
-      height:40,
-      flex: 1
+        paddingHorizontal: 10,
+        backgroundColor: "lightgrey",
+        marginHorizontal: 10,
+        borderRadius: 10,
+        height:40,
+        flex: 1
     },
     icon: {
         margin: 5
     },
     footer: {
-      marginBottom: 40
+        marginBottom: 40
     },
     modalContainer: {
-      // flex: 1,
-      height: Dimensions.get('window').height,
-      justifyContent: 'center',
-      alignItems: 'center',
-      backgroundColor: 'rgba(0, 0, 0, 0.5)', // Fondo semitransparente para el modal
-  },
-  photo: {
-    width: 185,
-    height: 185
-}
-  });
+        // flex: 1,
+        height: Dimensions.get('window').height,
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: 'rgba(0, 0, 0, 0.5)', // Fondo semitransparente para el modal
+    },
+    photo: {
+        width: 300,
+        height: 180
+    },
+    sendButton: {
+        padding: 8,
+        height: 40,
+        margin: 10,
+        backgroundColor: "rgb(151,151,151)",
+        borderRadius: 8,
+        alignItems: "center"
+    }
+});
 export default Gastos 
