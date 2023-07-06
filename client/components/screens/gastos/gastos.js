@@ -32,7 +32,7 @@ const [responsedata,setResponsedata] = useState({
     doc:"",
     total:"",
     nombre:"",
-    rete:0.0
+    rete:""
 })
 const handlerScan = async () => {
     try {
@@ -143,7 +143,7 @@ const handlerSend = () => {
                 </View>
                 <TextInput style={styles.input} placeholder='*Concepto' value={fillData?responsedata.nombre:""}/>
                 <View style={styles.inputCont}>
-                    <TextInput style={styles.input} placeholder='*NIT/CC'/>
+                    <TextInput style={styles.input} placeholder='*NIT/CC'value={fillData?responsedata.nit:""}/>
                     <TextInput style={styles.input} placeholder='*Nombre' value={fillData?responsedata.nombre:""}/>
                 </View>
                 <View style={styles.inputCont}>
