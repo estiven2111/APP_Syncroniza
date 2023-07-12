@@ -48,19 +48,21 @@ const handlerScan = async () => {
             'Content-Type': 'multipart/form-data'
           }
         });
-        const num = parseFloat(`2${response.data.total}`)
+        // const num = parseFloat(`2${response.data.total}`)
         
-        const iva =  (num * 19) / 100;
-        const rete = (num * 4) / 100;
-        console.log(iva)
+        // const iva =  (num * 19) / 100;
+        // const rete = (num * 4) / 100;
+        // console.log(iva)
         setResponsedata({
             nit:response.data.nit,
             numFact:response.data.numFact,
             doc:response.data.doc,
-            total:`2${response.data.total}`,
-            nombre:`${response.data.nombre}`,
-            iva,
-            rete
+            total:response.data.total,
+            nombre:response.data.nombre,
+            iva:response.data.iva,
+            rete:response.data.rete,
+            fecha:response.data.fecha,
+            concepto:response.data.concepto
         })
         console.log(responsedata)
         setFillData(true)
@@ -77,7 +79,9 @@ const handlerCancel = () => {
         total:"",
         nombre:"",
         rete:"",
-        iva:""
+        iva:"",
+        fecha:"",
+        concepto:""
     })
     setToScan("");
 }
@@ -90,7 +94,9 @@ const handlerSend = () => {
         total:"",
         nombre:"",
         rete:"",
-        iva:""
+        iva:"",
+        fecha:"",
+        concepto:""
     })
     setToScan("");
     setFillData(false)
@@ -141,7 +147,7 @@ const handlerSend = () => {
                     </View>
                 </Modal>
                 </View>
-                <TextInput style={styles.input} placeholder='*Concepto' value={fillData?responsedata.nombre:""}/>
+                <TextInput style={styles.input} placeholder='*Concepto' value={fillData?responsedata.concepto:""}/>
                 <View style={styles.inputCont}>
                     <TextInput style={styles.input} placeholder='*NIT/CC'value={fillData?responsedata.nit:""}/>
                     <TextInput style={styles.input} placeholder='*Nombre' value={fillData?responsedata.nombre:""}/>
@@ -152,7 +158,7 @@ const handlerSend = () => {
                 </View>
                 <View style={styles.inputCont}>
                     <TextInput style={styles.input} placeholder='Valor Rete fuente $'value={fillData?`${responsedata.rete}`:""}/>
-                    <TextInput style={styles.input} placeholder='*DD/MM/AAAA'/>
+                    <TextInput style={styles.input} placeholder='*DD/MM/AAAA' value={fillData?`${responsedata.fecha}`:""}/>
                 </View>
                 <View style={styles.inputCont}>
                     <TextInput style={styles.input} placeholder='Valor ICA $'/>
